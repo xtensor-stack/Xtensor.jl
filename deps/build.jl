@@ -5,12 +5,15 @@ using CxxWrap
 
 build_type = get(ENV, "CXXWRAP_BUILD_TYPE", "Release")
 cxx_wrap_dir = Pkg.dir("CxxWrap", "deps", "usr", "lib", "cmake")
+xtensor_dir = Pkg.dir("xtensor_julia", "deps", "usr", "lib", "cmake")
 
 xtensor_julia = library_dependency("xtensor_julia", aliases=["libxtensor_julia", "libxtensor_julia.a"])
 
 prefix=joinpath(BinDeps.depsdir(xtensor_julia), "usr")
 xtensor_julia_srcdir = BinDeps.depsdir(xtensor_julia)
 xtensor_julia_builddir = joinpath(BinDeps.depsdir(xtensor_julia), "builds", "xtensor_julia")
+xtensor_core_builddir = joinpath(BinDeps.depsdir(xtensor_julia), "builds", "xtensor")
+xtensor_core_srcdir = joinpath(BinDeps.depsdir(xtensor_julia), "builds", "xtensor_src")
 
 makeopts = ["--", "-j", "$(Sys.CPU_CORES+2)"]
 
@@ -27,7 +30,13 @@ end
 examples_srcdir = joinpath(BinDeps.depsdir(tensors), "examples")
 examples_builddir = joinpath(BinDeps.depsdir(tensors), "builds", "examples")
 
-xtensor_steps = @build_steps begin
+xtensor_core_steps = @build_steps begin
+  `git clone https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
+  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF $xtensor_core_srcdir`
+  `make install`
+end
+
+xtensor_julia_steps = @build_steps begin
   `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_DUMMY=ON $xtensor_julia_srcdir`
   `cmake --build . --config $build_type --target install $makeopts`
 end
@@ -44,33 +53,25 @@ for l in example_labels
 end
 
 examples_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DCMAKE_BUILD_TYPE="$build_type" -DLIBDIR_SUFFIX=$libdir_opt -DCxxWrap_DIR=$cxx_wrap_dir $examples_srcdir`
+  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DCMAKE_BUILD_TYPE="$build_type" -DLIBDIR_SUFFIX=$libdir_opt -DCxxWrap_DIR=$cxx_wrap_dir -Dxtensor_DIR=$xtensor_dir $examples_srcdir`
   `cmake --build . --config $build_type --target install $makeopts`
-end
-
-if isdir(xtensor_julia_builddir)
-  BinDeps.run(@build_steps begin
-    println("Build steps xtensor_julia")
-    ChangeDirectory(xtensor_julia_builddir)
-    xtensor_steps
-  end)
-end
-
-if isdir(examples_builddir)
-  BinDeps.run(@build_steps begin
-    println("Build steps examples")
-    ChangeDirectory(examples_builddir)
-    examples_steps
-  end)
 end
 
 provides(BuildProcess,
   (@build_steps begin
-    println("Build process xtensor_julia")
+
+    println("Build process xtensor-core")
+    CreateDirectory(xtensor_core_builddir)
+    @build_steps begin
+      ChangeDirectory(xtensor_core_builddir)
+      xtensor_core_steps
+    end
+
+    println("Build process xtensor-julia")
     CreateDirectory(xtensor_julia_builddir)
     @build_steps begin
       ChangeDirectory(xtensor_julia_builddir)
-      xtensor_steps
+      xtensor_julia_steps
     end
   end), xtensor_julia)
 
