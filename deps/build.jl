@@ -30,8 +30,10 @@ end
 examples_srcdir = joinpath(BinDeps.depsdir(tensors), "examples")
 examples_builddir = joinpath(BinDeps.depsdir(tensors), "builds", "examples")
 
+xtensor_version = "0.8.4"
+
 xtensor_core_steps = @build_steps begin
-  `git clone https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
+  `git clone -b $xtensor_version --single-branch https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
   `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF $xtensor_core_srcdir`
   `make install`
 end
