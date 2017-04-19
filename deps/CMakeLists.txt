@@ -49,6 +49,9 @@ if(BUILD_TESTS)
     include_directories(${XTENSOR_JULIA_INCLUDE_DIR})
     find_package(xtensor REQUIRED)
     include_directories(${xtensor_INCLUDE_DIR})
+#    find_package(CxxWrap REQUIRED)
+#    include_directories(${CxxWrap_INCLUDE_DIRS})
+    add_subdirectory(test)
 endif()
 
 OPTION(BUILD_DUMMY "create dummy placeholder binary" OFF)
@@ -62,9 +65,11 @@ endif()
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-install(TARGETS xtensor_julia
-     LIBRARY DESTINATION lib${LIBDIR_SUFFIX}
-)
+if(BUILD_DUMMY)
+    install(TARGETS xtensor_julia
+         LIBRARY DESTINATION lib${LIBDIR_SUFFIX}
+    )
+endif()
 
 install(FILES ${XTENSOR_JULIA_HEADERS}
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xtensor-julia)
