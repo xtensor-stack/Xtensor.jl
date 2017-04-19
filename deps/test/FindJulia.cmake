@@ -81,9 +81,25 @@ execute_process(
 )
 
 if(RETURN_CODE EQUAL 0)
-    MESSAGE(STATUS "JULIA_HOME is ${JULIA_HOME}")
     string(REGEX REPLACE "\"" "" JULIA_HOME ${JULIA_HOME})
     string(REGEX REPLACE "\n" "" JULIA_HOME ${JULIA_HOME})
+else()
+    return()
+endif()
+
+###################
+# libLLVM version #
+###################
+
+execute_process(
+    COMMAND ${Julia_EXECUTABLE} -E "Base.libllvm_version"
+    OUTPUT_VARIABLE Julia_LLVM_VERSION
+    RESULT_VARIABLE RETURN_CODE
+)
+
+if(RETURN_CODE EQUAL 0)
+    string(REGEX REPLACE "\"" "" Julia_LLVM_VERSION ${Julia_LLVM_VERSION})
+    string(REGEX REPLACE "\n" "" Julia_LLVM_VERSION ${Julia_LLVM_VERSION})
 else()
     return()
 endif()

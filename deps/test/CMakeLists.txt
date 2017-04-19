@@ -91,7 +91,7 @@ include_directories(${Julia_INCLUDE_DIRS})
 include_directories(${XTENSOR_INCLUDE_DIR})
 include_directories(${GTEST_INCLUDE_DIRS})
 
-find_library(LIBLLVM libLLVM libLLVM-3.7.1.so HINTS ${Julia_LIBRARY_DIR}/julia)
+find_library(LIBLLVM libLLVM-${Julia_LLVM_VERSION}.so HINTS ${Julia_LIBRARY_DIR}/julia)
 
 set(XTENSOR_JULIA_TESTS
     main.cpp
