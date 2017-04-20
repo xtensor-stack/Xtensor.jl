@@ -65,14 +65,19 @@ install:
     - hash -r
     - conda config --set always_yes yes --set changeps1 no
     - conda update -q conda
-    # Useful for debugging any issues with conda
     - conda info -a
+    # Install xtensor and other conda requirements
     - conda install xtensor==0.8.4 -c conda-forge
     - cd deps/test
     - conda env create -f ./test-environment.yml
     - source activate test-xtensor-julia
     - cd ..
-    - cmake -D BUILD_TESTS=ON -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
+    # Install CxxWrap
+    - julia -E "Pkg.add(\"CxxWrap\")"
+    # Build tests
+    - CxxWrap_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\")")
+    - CxxWrap_DIR=${CxxWrap_DIR//\"/}
+    - cmake -D BUILD_TESTS=ON -D CxxWrap_DIR=$CxxWrap_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
     - make -j2 test_xtensor_julia
 
 script:

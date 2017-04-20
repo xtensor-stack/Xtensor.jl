@@ -19,7 +19,7 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     find_package(xtensor-julia REQUIRED CONFIG)
     set(XTENSOR_JULIA_INCLUDE_DIR ${xtensor-julia_INCLUDE_DIR})
 
-#    find_package(CxxWrap REQUIRED CONFIG)
+    find_package(CxxWrap REQUIRED CONFIG)
 endif ()
 
 find_package(Julia REQUIRED)
