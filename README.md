@@ -1,5 +1,6 @@
 # ![xtensor-julia](http://quantstack.net/assets/images/xtensor-julia.svg)
 
+[![Travis](https://travis-ci.org/QuantStack/xtensor-julia.svg?branch=master)](https://travis-ci.org/QuantStack/xtensor-julia)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ multi-dimensional array library.

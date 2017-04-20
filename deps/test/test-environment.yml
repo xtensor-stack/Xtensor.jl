@@ -1,4 +1,4 @@
-name: test-xtensor-python
+name: test-xtensor-julia
 channels:
     - conda-forge
     - defaults
