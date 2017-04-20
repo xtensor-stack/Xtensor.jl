@@ -35,12 +35,20 @@ endif()
 ################## 
 
 execute_process(
-    COMMAND ${Julia_EXECUTABLE} -E "joinpath(match(r\"(.*)(bin)\",JULIA_HOME).captures[1],\"include\",\"julia\")"
+    COMMAND ${Julia_EXECUTABLE} -E "julia_include_dir = joinpath(match(r\"(.*)(bin)\",JULIA_HOME).captures[1],\"include\",\"julia\")\n
+        if !isdir(julia_include_dir)  # then we're running directly from build\n
+          julia_base_dir_aux = splitdir(splitdir(JULIA_HOME)[1])[1]  # useful for running-from-build\n
+          julia_include_dir = joinpath(julia_base_dir_aux, \"usr\", \"include\" )\n
+          julia_include_dir *= \";\" * joinpath(julia_base_dir_aux, \"src\", \"support\" )\n
+          julia_include_dir *= \";\" * joinpath(julia_base_dir_aux, \"src\" )\n
+        end\n
+        julia_include_dir"
     OUTPUT_VARIABLE Julia_INCLUDE_DIRS
     RESULT_VARIABLE RETURN_CODE
 )
 if(RETURN_CODE EQUAL 0)
     string(REGEX REPLACE "\"" "" Julia_INCLUDE_DIRS ${Julia_INCLUDE_DIRS})
+    string(REGEX REPLACE "\n" "" Julia_INCLUDE_DIRS ${Julia_INCLUDE_DIRS})
     set(Julia_INCLUDE_DIRS ${Julia_INCLUDE_DIRS}
         CACHE PATH "Location of Julia include files")
 else()
@@ -58,6 +66,7 @@ execute_process(
 )
 if(RETURN_CODE EQUAL 0)
     string(REGEX REPLACE "\"" "" Julia_LIBRARY_DIR ${Julia_LIBRARY_DIR})
+    string(REGEX REPLACE "\n" "" Julia_LIBRARY_DIR ${Julia_LIBRARY_DIR})
     string(STRIP ${Julia_LIBRARY_DIR} Julia_LIBRARY_DIR)
     set(Julia_LIBRARY_DIR ${Julia_LIBRARY_DIR}
         CACHE PATH "Julia library directory")
