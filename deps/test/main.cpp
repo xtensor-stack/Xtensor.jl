@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     // Run test suite
     int ret = RUN_ALL_TESTS();
 
-    // Closure of the Python interpreter
+    // Closure of the Julia interpreter
     jl_atexit_hook(0);
     return ret;
 }

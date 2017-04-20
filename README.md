@@ -17,10 +17,19 @@ The Julia bindings for `xtensor` are based on the [CxxWrap.jl](https://github.co
 Installation and testing
 ------------------------
 
-This package is still at a very experimental stage.
+- This package is still at a very experimental stage.
 
 ```julia
 Pkg.clone("https://github.com/QuantStack/xtensor-julia", "xtensor_julia");
 Pkg.build("xtensor_julia")
 Pkg.test("xtensor_julia")
 ```
+
+- Pure C++ testing:
+
+From `deps/build`
+
+```
+cmake -D CxxWrap_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_TESTS=ON ..
+```
+

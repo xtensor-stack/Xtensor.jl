@@ -95,9 +95,8 @@ namespace xt
     {
         if (shape.size() != this->dimension() || !std::equal(shape.begin(), shape.end(), this->shape().begin()))
         {
-            strides_type strides = make_sequence<strides_type>(shape.size(), size_type(1));
-            compute_strides(shape, layout::column_major, strides);
-            reshape(shape, strides);
+            derived_type tmp(shape);
+            *static_cast<derived_type*>(this) = std::move(tmp);
         }
     }
 
