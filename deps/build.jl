@@ -30,7 +30,7 @@ end
 examples_srcdir = joinpath(BinDeps.depsdir(tensors), "examples")
 examples_builddir = joinpath(BinDeps.depsdir(tensors), "builds", "examples")
 
-xtensor_version = "0.8.4"
+xtensor_version = "0.9.0"
 
 xtensor_core_steps = @build_steps begin
   `git clone -b $xtensor_version --single-branch https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
