@@ -19,7 +19,7 @@
 namespace xt
 {
     using container_type = std::array<std::size_t, 3>;
-
+/*
     TEST(jltensor, initializer_constructor)
     {
         jltensor<int, 3> t 
@@ -44,7 +44,7 @@ namespace xt
     TEST(jltensor, strided_constructor)
     {
         central_major_result<container_type> cmr;
-        jltensor<int, 3> cma(cmr.m_shape, cmr.m_strides);
+        jltensor<int, 3> cma(cmr.m_shape);
         compare_shape(cma, cmr);
     }
 
@@ -62,7 +62,7 @@ namespace xt
     {
         central_major_result<container_type> cmr;
         int value = 2;
-        jltensor<int, 3> cma(cmr.m_shape, cmr.m_strides, value);
+        jltensor<int, 3> cma(cmr.m_shape, value);
         compare_shape(cma, cmr);
         std::vector<int> vec(cma.size(), value);
         EXPECT_TRUE(std::equal(vec.cbegin(), vec.cend(), cma.data().cbegin()));
@@ -72,7 +72,7 @@ namespace xt
     {
         central_major_result<container_type> res;
         int value = 2;
-        jltensor<int, 3> a(res.m_shape, res.m_strides, value);
+        jltensor<int, 3> a(res.m_shape, value);
 
         {
             SCOPED_TRACE("copy constructor");
@@ -100,7 +100,7 @@ namespace xt
     {
         central_major_result<container_type> res;
         int value = 2;
-        jltensor<int, 3> a(res.m_shape, res.m_strides, value);
+        jltensor<int, 3> a(res.m_shape, value);
 
         {
             SCOPED_TRACE("move constructor");
@@ -174,4 +174,5 @@ namespace xt
         jltensor<int, 3> a;
         EXPECT_EQ(0, a());
     }
+*/
 }

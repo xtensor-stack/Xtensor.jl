@@ -17,6 +17,7 @@
 #include "xtensor/xsemantic.hpp"
 
 #include "type_conversion.hpp"
+
 #include "jlbuffer_adaptor.hpp"
 #include "jlcontainer.hpp"
 
@@ -72,15 +73,15 @@ namespace xt
         using inner_backstrides_type = typename base_type::inner_backstrides_type;
 
         jltensor();
-        jltensor(const self_type&) = default;
+        jltensor(const self_type&);
         jltensor(self_type&&) = default;
         jltensor(nested_initializer_list_t<T, N> t);
         explicit jltensor(const shape_type& shape);
         explicit jltensor(const shape_type& shape, const_reference value);
         explicit jltensor(jl_array_t* jl);
 
-        self_type& operator=(const self_type& e) = default;
-        self_type& operator=(self_type&& e) = default;
+        self_type& operator=(const self_type&);
+        self_type& operator=(self_type&&) = default;
 
         template <class E>
         jltensor(const xexpression<E>& e);
@@ -127,6 +128,7 @@ namespace xt
      */
     template <class T, std::size_t N>
     inline jltensor<T, N>::jltensor()
+        : base_type()
     {
         m_shape = make_sequence<shape_type>(N, size_type(1));
         compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
@@ -139,8 +141,9 @@ namespace xt
      */
     template <class T, std::size_t N>
     inline jltensor<T, N>::jltensor(nested_initializer_list_t<T, N> t)
+        : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t), layout::row_major);
+        base_type::reshape(xt::shape<shape_type>(t));
         nested_copy(m_data.begin(), t);
     }
 
@@ -148,7 +151,6 @@ namespace xt
      * Allocates an uninitialized jltensor with the specified shape and
      * layout.
      * @param shape the shape of the jltensor
-     * @param l the layout of the jltensor
      */
     template <class T, std::size_t N>
     inline jltensor<T, N>::jltensor(const shape_type& shape)
@@ -163,7 +165,6 @@ namespace xt
      * are initialized to the specified value.
      * @param shape the shape of the jltensor
      * @param value the value of the elements
-     * @param l the layout of the jltensor
      */
     template <class T, std::size_t N>
     inline jltensor<T, N>::jltensor(const shape_type& shape,
@@ -184,6 +185,33 @@ namespace xt
     {
         init_from_julia();
     }
+
+    /**
+     * @name Copy semantic
+     */
+    //@{
+    /**
+     * The copy constructor.
+     */
+    template <class T, std::size_t N>
+    inline jltensor<T, N>::jltensor(const self_type& rhs)
+        : base_type()
+    {
+        compute_strides(rhs.shape(), layout::column_major, m_strides, m_backstrides);
+        init_tensor(rhs.shape());
+        std::copy(rhs.data().begin(), rhs.data().end(), this->data().begin());
+    }
+
+    /**
+     * The assignment operator.
+     */
+    template <class T, std::size_t N>
+    inline auto jltensor<T, N>::operator=(const self_type& rhs) -> self_type&
+    {
+        self_type tmp(rhs);
+        *this = std::move(tmp);
+        return *this;
+    }
     //@}
 
     /**
@@ -196,7 +224,11 @@ namespace xt
     template <class T, std::size_t N>
     template <class E>
     inline jltensor<T, N>::jltensor(const xexpression<E>& e)
+        : base_type()
     {
+        m_shape = forward_sequence<shape_type>(e.derived_cast().shape());
+        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        init_tensor(m_shape);
         semantic_base::assign(e);
     }
 
@@ -217,7 +249,7 @@ namespace xt
         jl_value_t* array_type = cxx_wrap::apply_array_type(cxx_wrap::static_type_mapping<value_type>::julia_type(), 1);
 
         // make tuple_type for shape
-        jl_svec_t* jtypes = (jl_value_t*)jl_alloc_svec(N);
+        jl_svec_t* jtypes = jl_alloc_svec(N);
         for (std::size_t i = 0; i < N; ++i)
         {
             jl_svecset(jtypes, i, cxx_wrap::julia_type<typename shape_type::value_type>());
@@ -225,7 +257,7 @@ namespace xt
         jl_datatype_t* tuple_type = jl_apply_tuple_type(jtypes);
 
         // allocate array
-        jl_value_t* dims = jl_new_bits(tuple_type, shape.data());
+        jl_value_t* dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
         this->p_array = jl_new_array(array_type, dims);
 
         // setup buffer adaptor
