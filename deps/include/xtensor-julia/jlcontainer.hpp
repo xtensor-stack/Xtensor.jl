@@ -58,7 +58,12 @@ namespace xt
         using broadcast_iterator = typename iterable_base::broadcast_iterator;
         using const_broadcast_iterator = typename iterable_base::broadcast_iterator;
 
+        static constexpr layout_type static_layout = layout_type::column_major;
+        static constexpr bool contiguous_layout = false;
+
         void reshape(const shape_type& shape);
+
+        layout_type layout() const;
 
         using base_type::operator();
         using base_type::operator[];
@@ -118,6 +123,17 @@ namespace xt
         : p_array(ptr)
     {
     }
+
+    /**
+     * Return the layout_type of the container
+     * @return layout_type of the container
+     */
+    template <class D>
+    inline auto jlcontainer<D>::layout() const -> layout_type
+    {
+        return layout_type::column_major;
+    }
+
 }
 
 #endif

@@ -131,7 +131,7 @@ namespace xt
         : base_type()
     {
         m_shape = make_sequence<shape_type>(N, size_type(1));
-        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
         m_data[0] = T();
     }
@@ -156,7 +156,7 @@ namespace xt
     inline jltensor<T, N>::jltensor(const shape_type& shape)
         : m_shape(shape)
     {
-        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
     }
 
@@ -171,7 +171,7 @@ namespace xt
                                     const_reference value)
         : m_shape(shape)
     {
-        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
         std::fill(m_data.begin(), m_data.end(), value);
     }
@@ -197,7 +197,7 @@ namespace xt
     inline jltensor<T, N>::jltensor(const self_type& rhs)
         : base_type(), m_shape(rhs.shape())
     {
-        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
         std::copy(rhs.data().begin(), rhs.data().end(), this->data().begin());
     }
@@ -227,7 +227,7 @@ namespace xt
         : base_type()
     {
         m_shape = forward_sequence<shape_type>(e.derived_cast().shape());
-        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
         semantic_base::assign(e);
     }
@@ -274,7 +274,7 @@ namespace xt
         }
 
         std::copy(&(this->p_array->nrows), &(this->p_array->nrows) + N, m_shape.begin());
-        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),
                                 static_cast<size_type>(jl_array_len(this->p_array)));
     }
