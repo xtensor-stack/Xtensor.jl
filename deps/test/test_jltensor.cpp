@@ -19,16 +19,16 @@
 namespace xt
 {
     using container_type = std::array<std::size_t, 3>;
-/*
+
     TEST(jltensor, initializer_constructor)
     {
-        jltensor<int, 3> t 
-          {{{ 0,  1,  2}, 
-            { 3,  4,  5}, 
-            { 6,  7,  8}}, 
-           {{ 9, 10, 11}, 
-            {12, 13, 14}, 
-            {15, 16, 17}}}; 
+        jltensor<int, 3> t
+          {{{ 0,  1,  2},
+            { 3,  4,  5},
+            { 6,  7,  8}},
+           {{ 9, 10, 11},
+            {12, 13, 14},
+            {15, 16, 17}}};
         EXPECT_EQ(t.dimension(), 3);
         EXPECT_EQ(t(0, 0, 1), 1);
         EXPECT_EQ(t.shape()[0], 2);
@@ -41,13 +41,6 @@ namespace xt
         compare_shape(ca, cm);
     }
 
-    TEST(jltensor, strided_constructor)
-    {
-        central_major_result<container_type> cmr;
-        jltensor<int, 3> cma(cmr.m_shape);
-        compare_shape(cma, cmr);
-    }
-
     TEST(jltensor, valued_constructor)
     {
         column_major_result<container_type> cm;
@@ -56,16 +49,6 @@ namespace xt
         compare_shape(ca, cm);
         std::vector<int> vec(ca.size(), value);
         EXPECT_TRUE(std::equal(vec.cbegin(), vec.cend(), ca.data().cbegin()));
-    }
-
-    TEST(jltensor, strided_valued_constructor)
-    {
-        central_major_result<container_type> cmr;
-        int value = 2;
-        jltensor<int, 3> cma(cmr.m_shape, value);
-        compare_shape(cma, cmr);
-        std::vector<int> vec(cma.size(), value);
-        EXPECT_TRUE(std::equal(vec.cbegin(), vec.cend(), cma.data().cbegin()));
     }
 
     TEST(jltensor, copy_semantic)
@@ -85,7 +68,7 @@ namespace xt
 
         {
             SCOPED_TRACE("assignment operator");
-            row_major_result<container_type> r;
+            column_major_result<container_type> r;
             jltensor<int, 3> c(r.m_shape, 0);
             EXPECT_NE(a.data(), c.data());
             c = a;
@@ -95,7 +78,6 @@ namespace xt
             EXPECT_NE(a.data()[0], c.data()[0]);
         }
     }
-
     TEST(jltensor, move_semantic)
     {
         central_major_result<container_type> res;
@@ -112,7 +94,7 @@ namespace xt
 
         {
             SCOPED_TRACE("move assignment");
-            row_major_result<container_type> r;
+            column_major_result<container_type> r;
             jltensor<int, 3> c(r.m_shape, 0);
             EXPECT_NE(a.data(), c.data());
             jltensor<int, 3> tmp(a);
@@ -137,12 +119,6 @@ namespace xt
     {
         jltensor<int, 3> a;
         test_reshape<jltensor<int, 3>, container_type>(a);
-    }
-
-    TEST(jltensor, transpose)
-    {
-        jltensor<int, 3> a;
-        test_transpose<jltensor<int, 3>, container_type>(a);
     }
 
     TEST(jltensor, access)
@@ -174,5 +150,5 @@ namespace xt
         jltensor<int, 3> a;
         EXPECT_EQ(0, a());
     }
-*/
+
 }

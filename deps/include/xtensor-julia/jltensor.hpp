@@ -144,7 +144,7 @@ namespace xt
         : base_type()
     {
         base_type::reshape(xt::shape<shape_type>(t));
-        nested_copy(m_data.begin(), t);
+        nested_copy(this->xbegin(m_shape), t);
     }
 
     /**
@@ -157,7 +157,7 @@ namespace xt
         : m_shape(shape)
     {
         compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
-        init_tensor(shape);
+        init_tensor(m_shape);
     }
 
     /**
@@ -171,8 +171,8 @@ namespace xt
                                     const_reference value)
         : m_shape(shape)
     {
-        compute_strides(shape, layout::column_major, m_strides, m_backstrides);
-        init_tensor(shape);
+        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        init_tensor(m_shape);
         std::fill(m_data.begin(), m_data.end(), value);
     }
 
@@ -195,10 +195,10 @@ namespace xt
      */
     template <class T, std::size_t N>
     inline jltensor<T, N>::jltensor(const self_type& rhs)
-        : base_type()
+        : base_type(), m_shape(rhs.shape())
     {
-        compute_strides(rhs.shape(), layout::column_major, m_strides, m_backstrides);
-        init_tensor(rhs.shape());
+        compute_strides(m_shape, layout::column_major, m_strides, m_backstrides);
+        init_tensor(m_shape);
         std::copy(rhs.data().begin(), rhs.data().end(), this->data().begin());
     }
 
@@ -263,7 +263,6 @@ namespace xt
         // setup buffer adaptor
         m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),
                                 static_cast<size_type>(jl_array_len(this->p_array)));
-        JL_GC_POP();
     }
 
     template <class T, std::size_t N>
