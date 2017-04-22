@@ -14,10 +14,7 @@ Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ mult
 
 The Julia bindings for `xtensor` are based on the [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl/) C++ library.
 
-Installation and testing
-------------------------
-
-- This package is still at a very experimental stage.
+## Installation and testing
 
 ```julia
 Pkg.clone("https://github.com/QuantStack/xtensor-julia", "Xtensor");
@@ -33,3 +30,9 @@ From `deps/build`
 cmake -D CxxWrap_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_TESTS=ON ..
 ```
 
+## License
+
+We use a shared copyright model that enables all contributors to maintain the
+copyright on their contributions.
+
+This software is licensed under the BSD-3-Clause license. See the [LICENSE](LICENSE) file for details.
