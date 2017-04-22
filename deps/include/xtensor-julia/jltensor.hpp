@@ -354,51 +354,9 @@ namespace cxx_wrap
         }
     };
 
-    template <class T, std::size_t N>
-    struct ConvertToCpp<xt::jltensor<T, N>&, false, false, false>
-    {
-        xt::jltensor<T, N> operator()(jl_array_t* arr) const
-        {
-            return xt::jltensor<T, N>(arr);
-        }
-    };
-
-    template <class T, std::size_t N>
-    struct ConvertToCpp<const xt::jltensor<T, N>&, false, false, false>
-    {
-        xt::jltensor<T, N> operator()(jl_array_t* arr) const
-        {
-            return xt::jltensor<T, N>(arr);
-        }
-    };
-
     // Conversions
     template<class T, std::size_t N>
     struct static_type_mapping<xt::jltensor<T, N>>
-    {
-        using type = jl_array_t*;
-        static constexpr bool is_dynamic = false;
-
-        static jl_datatype_t* julia_type()
-        {
-            return (jl_datatype_t*)apply_array_type(static_type_mapping<T>::julia_type(), N);
-        }
-    };
-
-    template<class T, std::size_t N>
-    struct static_type_mapping<const xt::jltensor<T, N>&>
-    {
-        using type = jl_array_t*;
-        static constexpr bool is_dynamic = false;
-
-        static jl_datatype_t* julia_type()
-        {
-            return (jl_datatype_t*)apply_array_type(static_type_mapping<T>::julia_type(), N);
-        }
-    };
-
-    template<class T, std::size_t N>
-    struct static_type_mapping<xt::jltensor<T, N>&>
     {
         using type = jl_array_t*;
         static constexpr bool is_dynamic = false;
