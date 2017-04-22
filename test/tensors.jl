@@ -8,9 +8,9 @@
 
 using CxxWrap
 using Base.Test
-using xtensor_julia
+using Xtensor
 
-wrap_modules(xtensor_julia._l_tensors)
+wrap_modules(Xtensor._l_tensors)
 
 arr = [[1.0 2.0]
        [3.0 4.0]]

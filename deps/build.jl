@@ -5,11 +5,11 @@ using CxxWrap
 
 build_type = get(ENV, "CXXWRAP_BUILD_TYPE", "Release")
 cxx_wrap_dir = Pkg.dir("CxxWrap", "deps", "usr", "lib", "cmake")
-xtensor_dir = Pkg.dir("xtensor_julia", "deps", "usr", "lib", "cmake")
+xtensor_dir = Pkg.dir("Xtensor", "deps", "usr", "lib", "cmake")
 
 xtensor_julia = library_dependency("xtensor_julia", aliases=["libxtensor_julia", "libxtensor_julia.a"])
 
-prefix=joinpath(BinDeps.depsdir(xtensor_julia), "usr")
+prefix = joinpath(BinDeps.depsdir(xtensor_julia), "usr")
 xtensor_julia_srcdir = BinDeps.depsdir(xtensor_julia)
 xtensor_julia_builddir = joinpath(BinDeps.depsdir(xtensor_julia), "builds", "xtensor_julia")
 xtensor_core_builddir = joinpath(BinDeps.depsdir(xtensor_julia), "builds", "xtensor")
