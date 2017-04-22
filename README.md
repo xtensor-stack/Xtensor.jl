@@ -14,21 +14,76 @@ Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ mult
 
 The Julia bindings for `xtensor` are based on the [CxxWrap.jl](https://github.com/JuliaInterop/CxxWrap.jl/) C++ library.
 
-## Installation and testing
+## Installation
 
 ```julia
 Pkg.clone("https://github.com/QuantStack/xtensor-julia", "Xtensor");
 Pkg.build("Xtensor")
-Pkg.test("Xtensor")
 ```
 
-- Pure C++ testing:
+## Usage
+
+`xtensor-julia` offers a container type, `jltensor` wrapping Julia arrays inplace to provide an xtensor semantics
+
+This container enables the numpy-style APIs of xtensor (see [the numpy to xtensor cheat sheet](http://xtensor.readthedocs.io/en/latest/numpy.html)).
+
+### Example 1: Use an algorithm of the C++ standard library with Julia array.
+
+**C++ code**
+
+```cpp
+#include <numeric>                        // Standard library import for std::accumulate
+#include <cxx_wrap.hpp>                   // CxxWrap import to define Julia bindings
+#include "xtensor-julia/jltensor.hpp"     // Import the jltensor container definition
+#include "xtensor/xmath.hpp"              // xtensor import for the C++ universal functions
+
+double sum_of_sines(xt::jltensor<double, 2>& m)
+{
+    auto sines = xt::sin(m);  // sines does not actually hold values.
+    return std::accumulate(sines.begin(), sines.end(), 0.0);
+}
+
+JULIA_CPP_MODULE_BEGIN(registry)
+    cxx_wrap::Module mod = registry.create_module("xtensor_julia_test");
+    mod.method("sum_of_sines", sum_of_sines);
+JULIA_CPP_MODULE_END
+```
+
+**Julia Code**
+
+```julia
+using xtensor_julia_test
+
+arr = [[1.0 2.0]
+       [3.0 4.0]]
+
+s = sum_of_sines(arr)
+s
+```
+
+**Outputs**
+
+```
+1.1350859243855171
+```
+
+## Running the C++ tests
 
 From `deps/build`
 
 ```
 cmake -D CxxWrap_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_TESTS=ON ..
 ```
+
+## Dependencies on `xtensor` and `CxxWrap`
+
+`xtensor-julia` depends on the `xtensor` and `CxxWrap` libraries
+
+| `xtensor-jula`  | `xtensor` | `CxxWrap` |
+|-----------------|-----------|-----------|
+| master          |  ^0.9.0   | ^0.3.0    |
+
+These dependencies are automatically resolved when using the Julia package manager.
 
 ## License
 
