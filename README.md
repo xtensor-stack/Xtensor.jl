@@ -20,9 +20,9 @@ Installation and testing
 - This package is still at a very experimental stage.
 
 ```julia
-Pkg.clone("https://github.com/QuantStack/xtensor-julia", "xtensor_julia");
-Pkg.build("xtensor_julia")
-Pkg.test("xtensor_julia")
+Pkg.clone("https://github.com/QuantStack/xtensor-julia", "Xtensor");
+Pkg.build("Xtensor")
+Pkg.test("Xtensor")
 ```
 
 - Pure C++ testing:

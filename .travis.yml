@@ -80,7 +80,7 @@ install:
     - cmake -D BUILD_TESTS=ON -D CxxWrap_DIR=$CxxWrap_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
     - make -j2 test_xtensor_julia
     # Build Julia Package
-    - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"xtensor_julia\"); Pkg.build(\"xtensor_julia\"); Pkg.test(\"xtensor_julia\");"
+    - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
 
 script:
     - make xtest

@@ -1,6 +1,6 @@
 __precompile__()
 
-module xtensor_julia
+module Xtensor
 
 using CxxWrap
 
