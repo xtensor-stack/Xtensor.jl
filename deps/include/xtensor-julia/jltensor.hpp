@@ -144,7 +144,7 @@ namespace xt
         : base_type()
     {
         base_type::reshape(xt::shape<shape_type>(t));
-        nested_copy(this->xbegin(m_shape), t);
+        nested_copy(this->xbegin(), t);
     }
 
     /**
@@ -185,6 +185,7 @@ namespace xt
     {
         init_from_julia();
     }
+    //@}
 
     /**
      * @name Copy semantic
