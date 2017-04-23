@@ -7,8 +7,8 @@ cxx_wrap_dir = Pkg.dir("CxxWrap", "deps", "usr", "lib", "cmake")
 xtensor_dir = Pkg.dir("Xtensor", "deps", "usr", "lib", "cmake")
 
 prefix                 = Pkg.dir("Xtensor", "deps", "usr")
-xtensor_core_srcdir    = Pkg.dir("Xtensor", "builds", "xtensor_src")
-xtensor_julia_srcdir   = Pkg.dir("Xtensor", "deps")
+xtensor_core_srcdir    = Pkg.dir("Xtensor", "deos", "xtensor")
+xtensor_julia_srcdir   = Pkg.dir("Xtensor", "deps", "xtensor-julia")
 xtensor_core_builddir  = Pkg.dir("Xtensor", "builds", "xtensor")
 xtensor_julia_builddir = Pkg.dir("Xtensor", "builds", "xtensor-julia")
 
@@ -24,8 +24,8 @@ for l in example_labels
    @eval $l = $(library_dependency(string(l), aliases=["lib"*string(l)]))
    push!(xtensorjl, eval(:($l)))
 end
-xtensorjl_srcdir = joinpath(BinDeps.depsdir(tensors), "examples")
-xtensorjl_builddir = joinpath(BinDeps.depsdir(tensors), "builds", "examples")
+xtensorjl_srcdir = joinpath(BinDeps.depsdir(tensors), "xtensor-julia-examples")
+xtensorjl_builddir = joinpath(BinDeps.depsdir(tensors), "builds", "xtensor-julia-examples")
 
 xtensor_version = "0.9.0"
 
