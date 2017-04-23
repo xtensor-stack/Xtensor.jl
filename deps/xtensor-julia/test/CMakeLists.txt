@@ -95,11 +95,10 @@ include_directories(${CxxWrap_INCLUDE_DIRS})
 include_directories(${XTENSOR_INCLUDE_DIR})
 include_directories(${GTEST_INCLUDE_DIRS})
 
-find_library(LIBLLVM libLLVM-${Julia_LLVM_VERSION}${CMAKE_SHARED_LIBRARY_SUFFIX} HINTS ${Julia_LIBRARY_DIR}/julia)
+find_library(LIBLLVM ${CMAKE_SHARED_LIBRARY_PREFIX}LLVM-${Julia_LLVM_VERSION}${CMAKE_SHARED_LIBRARY_SUFFIX} HINTS ${Julia_LIBRARY_DIR}/julia)
 
 set(XTENSOR_JULIA_TESTS
     main.cpp
-    #test_jlarray.cpp
     test_jltensor.cpp
 )
 
