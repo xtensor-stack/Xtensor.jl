@@ -1,6 +1,6 @@
 dist: trusty
 sudo: required
-language: cpp
+language: julia
 matrix:
   include:
     - os: linux
@@ -27,6 +27,10 @@ matrix:
           packages:
             - g++-5
       env: COMPILER=gcc GCC=5
+    - os: osx
+      osx_image: xcode8
+      compiler: clang
+      julia: 0.5
 env:
   global:
     - MINCONDA_VERSION="latest"
@@ -47,10 +51,11 @@ before_install:
       fi
     - |
       # Install Julia from PPA
-      sudo add-apt-repository ppa:staticfloat/juliareleases -y
-      sudo apt-get update -q
-      sudo apt-get install julia -y
-      ls /usr/lib/x86_64-linux-gnu/julia/ -al
+      if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+          sudo add-apt-repository ppa:staticfloat/juliareleases -y
+          sudo apt-get update -q
+          sudo apt-get install julia -y
+      fi
 
 install:
     # Define the version of miniconda to download
