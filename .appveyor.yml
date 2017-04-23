@@ -1,0 +1,46 @@
+build: false
+
+os: Visual Studio 2015
+
+platform:
+  - x64
+  - x86
+
+environment:
+  matrix:
+    - MINICONDA: C:\xtensor-conda
+
+init:
+  # Install miniconda
+  - "ECHO %MINICONDA%"
+  - C:\"Program Files (x86)"\"Microsoft Visual Studio 14.0"\VC\vcvarsall.bat %PLATFORM%
+  - ps: if($env:Platform -eq "x64"){Start-FileDownload 'http://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe' C:\Miniconda.exe; echo "Done"}
+  - ps: if($env:Platform -eq "x86"){Start-FileDownload 'http://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86.exe' C:\Miniconda.exe; echo "Done"}
+  - cmd: C:\Miniconda.exe /S /D=C:\xtensor-conda
+  - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%MINICONDA%\\Library\\bin;%PATH%"
+  # Download most recent Julia Windows binary
+  - ps: if($env:Platform -eq "x64"){(new-object net.webclient).DownloadFile(
+        $("http://s3.amazonaws.com/"+"julialang/bin/winnt/x64/0.5/julia-0.5-latest-win64.exe"),
+        "C:\projects\julia-binary.exe")}
+  - ps: if($env:Platform -eq "x86"){(new-object net.webclient).DownloadFile(
+        $("http://s3.amazonaws.com/"+"julialang/bin/winnt/x86/0.5/julia-0.5-latest-win32.exe"),
+        "C:\projects\julia-binary.exe")}
+  # Run installer silently, output to C:\projects\julia-build
+  - C:\projects\julia-binary.exe /S /D=C:\projects\julia-build
+  - IF DEFINED MSYSTEM C:\msys64\usr\bin\bash.exe -l -c "pacman --needed --noconfirm -S mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-i686-cmake mingw-w64-i686-gcc make"
+
+install:
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a
+  - conda install gtest cmake xtensor=0.9.0 -c conda-forge
+  - cd deps\xtensor-julia
+  # Install CxxWrap
+  - set BUILD_ON_WINDOWS=1 
+  - C:\projects\julia-build\bin\julia -E "Pkg.add(\"CxxWrap\")"
+  # Build pure Cpp tests
+  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\")" > temp.txt
+  - set /p CxxWrap_DIR=<temp.txt
+  - set CxxWrap_DIR=%CxxWrap_DIR:"=%
+  - cmake -G "NMake Makefiles" -D CxxWrap_DIR=%CxxWrap_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D Julia_EXECUTABLE=C:\projects\julia-build\bin\julia .
+  - nmake test_xtensor_julia
