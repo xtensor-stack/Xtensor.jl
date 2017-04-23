@@ -53,22 +53,11 @@ if(BUILD_TESTS)
     add_subdirectory(test)
 endif()
 
-OPTION(BUILD_DUMMY "create dummy placeholder binary" OFF)
-if(BUILD_DUMMY)
-    add_library(xtensor_julia SHARED src/dummy.cpp)
-endif()
-
 # Installation
 # ============
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
-
-if(BUILD_DUMMY)
-    install(TARGETS xtensor_julia
-         LIBRARY DESTINATION lib${LIBDIR_SUFFIX}
-    )
-endif()
 
 install(FILES ${XTENSOR_JULIA_HEADERS}
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xtensor-julia)
