@@ -95,8 +95,6 @@ include_directories(${CxxWrap_INCLUDE_DIRS})
 include_directories(${XTENSOR_INCLUDE_DIR})
 include_directories(${GTEST_INCLUDE_DIRS})
 
-find_library(LIBLLVM ${CMAKE_SHARED_LIBRARY_PREFIX}LLVM-${Julia_LLVM_VERSION}${CMAKE_SHARED_LIBRARY_SUFFIX} HINTS ${Julia_LIBRARY_DIR}/julia)
-
 set(XTENSOR_JULIA_TESTS
     main.cpp
     test_jltensor.cpp
@@ -108,7 +106,10 @@ add_executable(${XTENSOR_JULIA_TARGET} ${XTENSOR_JULIA_TESTS} ${XTENSOR_JULIA_HE
 if(DOWNLOAD_GTEST OR GTEST_SRC_DIR)
     add_dependencies(${XTENSOR_JULIA_TARGET} gtest_main)
 endif()
-target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} ${LIBLLVM})
+
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,${Julia_LIBRARY_DIR}")
+
+target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY})
 
 add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
 
