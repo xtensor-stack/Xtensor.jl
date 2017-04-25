@@ -36,7 +36,7 @@ xtensor_core_steps = @build_steps begin
 end
 
 xtensor_julia_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" $xtensor_julia_srcdir`
+  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -Dxtensor_DIR=$xtensor_dir $xtensor_julia_srcdir`
   `cmake --build . --config $build_type --target install $makeopts`
 end
 
@@ -52,7 +52,7 @@ for l in example_labels
 end
 
 xtensorjl_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DCMAKE_BUILD_TYPE="$build_type" -DLIBDIR_SUFFIX=$libdir_opt -DCxxWrap_DIR=$cxx_wrap_dir -Dxtensor_DIR=$xtensor_dir $xtensorjl_srcdir`
+  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DLIBDIR_SUFFIX=$libdir_opt -DCxxWrap_DIR=$cxx_wrap_dir -Dxtensor_DIR=$xtensor_dir $xtensorjl_srcdir`
   `cmake --build . --config $build_type --target install $makeopts`
 end
 
