@@ -8,6 +8,11 @@
 
 cmake_minimum_required(VERSION 3.1)
 
+set(CMAKE_MACOSX_RPATH 1)
+set(CMAKE_SKIP_BUILD_RPATH FALSE)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_definitions(-DJULIA_ENABLE_THREADING)
@@ -95,7 +100,7 @@ include_directories(${CxxWrap_INCLUDE_DIRS})
 include_directories(${XTENSOR_INCLUDE_DIR})
 include_directories(${GTEST_INCLUDE_DIRS})
 
-find_library(LIBLLVM ${CMAKE_SHARED_LIBRARY_PREFIX}LLVM-${Julia_LLVM_VERSION}${CMAKE_SHARED_LIBRARY_SUFFIX} HINTS ${Julia_LIBRARY_DIR}/julia)
+link_directories(${Julia_LIBRARY_DIR}/julia)
 
 set(XTENSOR_JULIA_TESTS
     main.cpp
@@ -105,10 +110,11 @@ set(XTENSOR_JULIA_TESTS
 set(XTENSOR_JULIA_TARGET test_xtensor_julia)
 
 add_executable(${XTENSOR_JULIA_TARGET} ${XTENSOR_JULIA_TESTS} ${XTENSOR_JULIA_HEADERS} ${XTENSOR_HEADERS})
+
 if(DOWNLOAD_GTEST OR GTEST_SRC_DIR)
     add_dependencies(${XTENSOR_JULIA_TARGET} gtest_main)
 endif()
-target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} ${LIBLLVM})
+target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} CxxWrap::cxx_wrap)
 
 add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
 
