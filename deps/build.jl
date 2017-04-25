@@ -15,7 +15,11 @@ xtensor_julia_builddir = Pkg.dir("Xtensor", "builds", "xtensor-julia")
 makeopts = ["--", "-j", "$(Sys.CPU_CORES+2)"]
 
 # Set generator if on windows
-genopt = "Unix Makefiles"
+@static if is_windows()
+    genopt = "NMake Makefiles"
+else
+    genopt = "Unix Makefiles"
+end
 
 # Functions library for testing
 example_labels = [:tensors]
@@ -40,19 +44,8 @@ xtensor_julia_steps = @build_steps begin
   `cmake --build . --config $build_type --target install $makeopts`
 end
 
-libdir_opt = ""
-@static if is_windows()
-  libdir_opt = Sys.WORD_SIZE==32 ? "32" : ""
-end
-lib_prefix = @static is_windows() ? "" : "lib"
-lib_suffix = @static is_windows() ? "dll" : (@static is_apple() ? "dylib" : "so")
-example_paths = AbstractString[]
-for l in example_labels
-  push!(example_paths, joinpath(prefix,"lib$libdir_opt", "$(lib_prefix)$(string(l)).$lib_suffix"))
-end
-
 xtensorjl_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DLIBDIR_SUFFIX=$libdir_opt -DCxxWrap_DIR=$cxx_wrap_dir -Dxtensor_DIR=$xtensor_dir $xtensorjl_srcdir`
+  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DCxxWrap_DIR=$cxx_wrap_dir -Dxtensor_DIR=$xtensor_dir $xtensorjl_srcdir`
   `cmake --build . --config $build_type --target install $makeopts`
 end
 
