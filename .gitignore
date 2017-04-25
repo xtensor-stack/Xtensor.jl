@@ -3,6 +3,8 @@
 *.jl.mem
 /deps/builds
 /deps/xtensor-julia/build
+/deps/xtensor-julia/docs/build
+/deps/xtensor-julia/docs/xml
 /deps/deps.jl
 /deps/usr
 CMakeLists.txt.user
