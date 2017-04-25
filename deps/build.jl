@@ -7,7 +7,7 @@ cxx_wrap_dir = Pkg.dir("CxxWrap", "deps", "usr", "lib", "cmake")
 xtensor_dir = Pkg.dir("Xtensor", "deps", "usr", "lib", "cmake")
 
 prefix                 = Pkg.dir("Xtensor", "deps", "usr")
-xtensor_core_srcdir    = Pkg.dir("Xtensor", "deos", "xtensor")
+xtensor_core_srcdir    = Pkg.dir("Xtensor", "deps", "xtensor")
 xtensor_julia_srcdir   = Pkg.dir("Xtensor", "deps", "xtensor-julia")
 xtensor_core_builddir  = Pkg.dir("Xtensor", "builds", "xtensor")
 xtensor_julia_builddir = Pkg.dir("Xtensor", "builds", "xtensor-julia")
