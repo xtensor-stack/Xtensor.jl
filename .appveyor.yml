@@ -44,3 +44,10 @@ install:
   - set CxxWrap_DIR=%CxxWrap_DIR:"=%
   - cmake -G "NMake Makefiles" -D CxxWrap_DIR=%CxxWrap_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D Julia_EXECUTABLE=C:\projects\julia-build\bin\julia .
   - nmake test_xtensor_julia
+
+build_script:
+  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\")" > temp.txt
+  - set /p CxxWrap_BINDIR=<temp.txt
+  - set CxxWrap_BINDIR=%CxxWrap_BINDIR:"=%
+  - set PATH=%PATH%;C:\projects\julia-build\bin;%CxxWrap_BINDIR%
+  - nmake xtest
