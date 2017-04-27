@@ -116,5 +116,10 @@ if(DOWNLOAD_GTEST OR GTEST_SRC_DIR)
 endif()
 target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} CxxWrap::cxx_wrap)
 
-add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
+if(UNIX)
+    add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
+else()
+    add_custom_target(xtest COMMAND set JULIA_HOME=${JULIA_HOME} && .\\test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
+endif()
+
 
