@@ -247,7 +247,7 @@ namespace xt
     template <class T, std::size_t N>
     inline void jltensor<T, N>::init_tensor(const shape_type& shape)
     {
-        jl_value_t* array_type = cxx_wrap::apply_array_type(cxx_wrap::static_type_mapping<value_type>::julia_type(), 1);
+        jl_value_t* array_type = cxx_wrap::apply_array_type(cxx_wrap::static_type_mapping<value_type>::julia_type(), N);
 
         // make tuple_type for shape
         jl_svec_t* jtypes = jl_alloc_svec(N);
@@ -259,7 +259,7 @@ namespace xt
 
         // allocate array
         jl_value_t* dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
-        this->p_array = jl_new_array(array_type, dims);
+        this->p_array = jl_new_array((jl_value_t*)array_type, dims);
 
         // setup buffer adaptor
         m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),

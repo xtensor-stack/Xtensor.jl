@@ -27,14 +27,13 @@ init:
         "C:\projects\julia-binary.exe")}
   # Run installer silently, output to C:\projects\julia-build
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia-build
-  - IF DEFINED MSYSTEM C:\msys64\usr\bin\bash.exe -l -c "pacman --needed --noconfirm -S mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc mingw-w64-i686-cmake mingw-w64-i686-gcc make"
 
 install:
+  # Conda install cmake, xtensor
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
   - conda install gtest cmake xtensor=0.9.0 -c conda-forge
-  - cd deps\xtensor-julia
   # Install CxxWrap
   - set BUILD_ON_WINDOWS=1 
   - C:\projects\julia-build\bin\julia -E "Pkg.add(\"CxxWrap\")"
@@ -42,8 +41,12 @@ install:
   - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\")" > temp.txt
   - set /p CxxWrap_DIR=<temp.txt
   - set CxxWrap_DIR=%CxxWrap_DIR:"=%
+  - cd deps\xtensor-julia
   - cmake -G "NMake Makefiles" -D CxxWrap_DIR=%CxxWrap_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D Julia_EXECUTABLE=C:\projects\julia-build\bin\julia .
   - nmake test_xtensor_julia
+  # Build and test Xtensor.jl
+  #- cd ..\..
+  #- C:\projects\julia-build\bin\julia -E "Pkg.clone(pwd(), \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
 
 build_script:
   - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\")" > temp.txt
@@ -51,3 +54,4 @@ build_script:
   - set CxxWrap_BINDIR=%CxxWrap_BINDIR:"=%
   - set PATH=%PATH%;C:\projects\julia-build\bin;%CxxWrap_BINDIR%
   - nmake xtest
+
