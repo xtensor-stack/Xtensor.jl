@@ -44,7 +44,7 @@ install:
   - cd deps\xtensor-julia
   - cmake -G "NMake Makefiles" -D CxxWrap_DIR=%CxxWrap_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D Julia_EXECUTABLE=C:\projects\julia-build\bin\julia .
   - nmake test_xtensor_julia
-  # Build and test Xtensor.jl
+  # Run Julia Pkg build
   #- cd ..\..
   #- C:\projects\julia-build\bin\julia -E "Pkg.clone(pwd(), \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
 
