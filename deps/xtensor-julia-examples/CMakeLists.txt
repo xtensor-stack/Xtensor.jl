@@ -17,9 +17,12 @@ include_directories(${xtensor-julia_INCLUDE_DIR})
 add_library(tensors SHARED tensors.cpp)
 target_link_libraries(tensors CxxWrap::cxx_wrap)
 
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
 install(TARGETS
-  tensors 
-LIBRARY DESTINATION lib${LIBDIR_SUFFIX}
-ARCHIVE DESTINATION lib${LIBDIR_SUFFIX}
-RUNTIME DESTINATION lib${LIBDIR_SUFFIX}
-INCLUDES DESTINATION include)
+  tensors
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xtensor-julia-examples)
