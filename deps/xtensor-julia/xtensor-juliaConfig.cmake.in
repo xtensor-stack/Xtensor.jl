@@ -10,12 +10,12 @@
 # This module sets the following variables in your project::
 #
 #   xtensor-julia_FOUND - true if xtensor found on the system
-#   xtensor-julia_INCLUDE_DIR - the directory containing xtensor headers
+#   xtensor-julia_INCLUDE_DIRS - the directory containing xtensor headers
 #   xtensor-julia_LIBRARY - empty
 
 @PACKAGE_INIT@
 
 set(PN xtensor-julia)
-set_and_check(${PN}_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_INCLUDEDIR@")
+set_and_check(${PN}_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_INCLUDEDIR@")
 set(${PN}_LIBRARY "")
 check_required_components(${PN})
