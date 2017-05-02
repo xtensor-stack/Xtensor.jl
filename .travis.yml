@@ -72,7 +72,7 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.9.0 -c conda-forge
+    - conda install xtensor==0.10.0 -c conda-forge
     - cd deps/xtensor-julia/test
     - conda env create -f ./test-environment.yml
     - source activate test-xtensor-julia

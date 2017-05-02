@@ -11,8 +11,8 @@ find_package(CxxWrap REQUIRED)
 find_package(xtensor REQUIRED)
 find_package(xtensor-julia REQUIRED)
 
-include_directories(${xtensor_INCLUDE_DIR})
-include_directories(${xtensor-julia_INCLUDE_DIR})
+include_directories(${xtensor_INCLUDE_DIRS})
+include_directories(${xtensor-julia_INCLUDE_DIRS})
 
 add_library(tensors SHARED tensors.cpp)
 target_link_libraries(tensors CxxWrap::cxx_wrap)

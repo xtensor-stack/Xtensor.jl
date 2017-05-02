@@ -83,7 +83,7 @@ cmake -D CxxWrap_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_T
 
 | `xtensor-jula`  | `xtensor` | `CxxWrap` |
 |-----------------|-----------|-----------|
-| master          |  ^0.9.0   | ^0.3.0    |
+| master          |  ^0.10.0  | ^0.3.0    |
 
 These dependencies are automatically resolved when using the Julia package manager.
 

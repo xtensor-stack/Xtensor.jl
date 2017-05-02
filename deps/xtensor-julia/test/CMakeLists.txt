@@ -21,12 +21,12 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     project(xtensor-julia-test)
 
     find_package(xtensor REQUIRED CONFIG)
-    set(XTENSOR_INCLUDE_DIR ${xtensor_INCLUDE_DIR})
+    set(XTENSOR_INCLUDE_DIR ${xtensor_INCLUDE_DIRS})
 
     find_package(CxxWrap REQUIRED CONFIG)
 
     find_package(xtensor-julia REQUIRED CONFIG)
-    set(XTENSOR_JULIA_INCLUDE_DIR ${xtensor-julia_INCLUDE_DIR})
+    set(XTENSOR_JULIA_INCLUDE_DIR ${xtensor-julia_INCLUDE_DIRS})
 endif ()
 
 find_package(Julia REQUIRED)
