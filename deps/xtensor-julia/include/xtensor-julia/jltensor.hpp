@@ -169,10 +169,8 @@ namespace xt
     template <class T, std::size_t N>
     inline jltensor<T, N>::jltensor(const shape_type& shape,
                                     const_reference value)
-        : m_shape(shape)
+        : jltensor(shape)
     {
-        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
-        init_tensor(m_shape);
         std::fill(m_data.begin(), m_data.end(), value);
     }
 
@@ -200,7 +198,7 @@ namespace xt
     {
         compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
-        std::copy(rhs.data().begin(), rhs.data().end(), this->data().begin());
+        std::copy(rhs.data().cbegin(), rhs.data().cend(), this->data().begin());
     }
 
     /**

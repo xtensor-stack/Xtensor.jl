@@ -12,17 +12,17 @@
 
 #include "test_common.hpp"
 
-#include "xtensor-julia/jltensor.hpp"
+#include "xtensor-julia/jlarray.hpp"
 
-#include "xtensor/xtensor.hpp"
+#include "xtensor/xarray.hpp"
 
 namespace xt
 {
-    using container_type = std::array<std::size_t, 3>;
+    using container_type = std::vector<std::size_t>;
 
-    TEST(jltensor, initializer_constructor)
+    TEST(jarray, initializer_constructor)
     {
-        jltensor<int, 3> t
+        jlarray<int> t
           {{{ 0,  1,  2},
             { 3,  4,  5},
             { 6,  7,  8}},
@@ -34,32 +34,32 @@ namespace xt
         EXPECT_EQ(t.shape()[0], 2);
     }
 
-    TEST(jltensor, shaped_constructor)
+    TEST(jlarray, shaped_constructor)
     {
         column_major_result<container_type> cm;
-        jltensor<int, 3> ca(cm.m_shape);
+        jlarray<int> ca(cm.m_shape);
         compare_shape(ca, cm);
     }
 
-    TEST(jltensor, valued_constructor)
+    TEST(jlarray, valued_constructor)
     {
         column_major_result<container_type> cm;
         int value = 2;
-        jltensor<int, 3> ca(cm.m_shape, value);
+        jlarray<int> ca(cm.m_shape, value);
         compare_shape(ca, cm);
         std::vector<int> vec(ca.size(), value);
         EXPECT_TRUE(std::equal(vec.cbegin(), vec.cend(), ca.data().cbegin()));
     }
 
-    TEST(jltensor, copy_semantic)
+    TEST(jlarray, copy_semantic)
     {
         central_major_result<container_type> res;
         int value = 2;
-        jltensor<int, 3> a(res.m_shape, value);
+        jlarray<int> a(res.m_shape, value);
 
         {
             SCOPED_TRACE("copy constructor");
-            jltensor<int, 3> b(a);
+            jlarray<int> b(a);
             compare_shape(a, b);
             EXPECT_EQ(a.data(), b.data());
             a.data()[0] += 1;
@@ -69,7 +69,7 @@ namespace xt
         {
             SCOPED_TRACE("assignment operator");
             column_major_result<container_type> r;
-            jltensor<int, 3> c(r.m_shape, 0);
+            jlarray<int> c(r.m_shape, 0);
             EXPECT_NE(a.data(), c.data());
             c = a;
             compare_shape(a, c);
@@ -79,16 +79,16 @@ namespace xt
         }
     }
 
-    TEST(jltensor, move_semantic)
+    TEST(jlarray, move_semantic)
     {
         central_major_result<container_type> res;
         int value = 2;
-        jltensor<int, 3> a(res.m_shape, value);
+        jlarray<int> a(res.m_shape, value);
 
         {
             SCOPED_TRACE("move constructor");
-            jltensor<int, 3> tmp(a);
-            jltensor<int, 3> b(std::move(tmp));
+            jlarray<int> tmp(a);
+            jlarray<int> b(std::move(tmp));
             compare_shape(a, b);
             EXPECT_EQ(a.data(), b.data());
         }
@@ -96,59 +96,59 @@ namespace xt
         {
             SCOPED_TRACE("move assignment");
             column_major_result<container_type> r;
-            jltensor<int, 3> c(r.m_shape, 0);
+            jlarray<int> c(r.m_shape, 0);
             EXPECT_NE(a.data(), c.data());
-            jltensor<int, 3> tmp(a);
+            jlarray<int> tmp(a);
             c = std::move(tmp);
             compare_shape(a, c);
             EXPECT_EQ(a.data(), c.data());
         }
     }
 
-    TEST(jltensor, extended_constructor)
+    TEST(jlarray, extended_constructor)
     {
-        xt::xtensor<int, 2> a1 = { {1, 2}, {3, 4} };
-        xt::xtensor<int, 2> a2 = { {1, 2}, {3, 4} };
-        jltensor<int, 2> c = a1 + a2;
+        xt::xarray<int> a1 = { {1, 2}, {3, 4} };
+        xt::xarray<int> a2 = { {1, 2}, {3, 4} };
+        jlarray<int> c = a1 + a2;
         EXPECT_EQ(c(0, 0), a1(0, 0) + a2(0, 0));
         EXPECT_EQ(c(0, 1), a1(0, 1) + a2(0, 1));
         EXPECT_EQ(c(1, 0), a1(1, 0) + a2(1, 0));
         EXPECT_EQ(c(1, 1), a1(1, 1) + a2(1, 1));
     }
 
-    TEST(jltensor, reshape)
+    TEST(jlarray, reshape)
     {
-        jltensor<int, 3> a;
-        test_reshape<jltensor<int, 3>, container_type>(a);
+        jlarray<int> a;
+        test_reshape<jlarray<int>, container_type>(a);
     }
 
-    TEST(jltensor, access)
+    TEST(jlarray, access)
     {
-        jltensor<int, 3> a;
-        test_access<jltensor<int, 3>, container_type>(a);
+        jlarray<int> a;
+        test_access<jlarray<int>, container_type>(a);
     }
 
-    TEST(jltensor, indexed_access)
+    TEST(jlarray, indexed_access)
     {
-        jltensor<int, 3> a;
-        test_indexed_access<jltensor<int, 3>, container_type>(a);
+        jlarray<int> a;
+        test_indexed_access<jlarray<int>, container_type>(a);
     }
 
-    TEST(jltensor, broadcast_shape)
+    TEST(jlarray, broadcast_shape)
     {
-        jltensor<int, 4> a;
+        jlarray<int> a;
         test_broadcast(a);
     }
 
-    TEST(jltensor, iterator)
+    TEST(jlarray, iterator)
     {
-        jltensor<int, 3> a;
-        test_iterator<jltensor<int, 3>, container_type>(a);
+        jlarray<int> a;
+        test_iterator<jlarray<int>, container_type>(a);
     }
 
-    TEST(jltensor, zerod)
+    TEST(jlarray, zerod)
     {
-        jltensor<int, 3> a;
+        jlarray<int> a;
         EXPECT_EQ(0, a());
     }
 
