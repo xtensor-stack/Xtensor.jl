@@ -112,9 +112,6 @@ namespace xt
         container_type& data_impl() noexcept;
         const container_type& data_impl() const noexcept;
 
-        static jl_datatype_t* make_julia_shape_type();
-        static jl_value_t* make_julia_array_type();
-
         friend class xcontainer<jltensor<T, N>>;
     };
 
@@ -250,8 +247,8 @@ namespace xt
     template <class T, std::size_t N>
     inline void jltensor<T, N>::init_tensor(const shape_type& shape)
     {
-        static jl_value_t* array_type = make_julia_array_type(); 
-        static jl_datatype_t* tuple_type = make_julia_shape_type();
+        static jl_value_t* array_type = make_julia_array_type<value_type>(N); 
+        static jl_datatype_t* tuple_type = make_julia_shape_type(N);
 
         // allocate array
         jl_value_t* dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
@@ -322,23 +319,6 @@ namespace xt
     inline auto jltensor<T, N>::data_impl() const noexcept -> const container_type&
     {
         return m_data;
-    }
-
-    template <class T, std::size_t N>
-    inline jl_datatype_t* jltensor<T, N>::make_julia_shape_type()
-    {
-        jl_svec_t* jtypes = jl_alloc_svec(N);
-        for (std::size_t i = 0; i < N; ++i)
-        {
-            jl_svecset(jtypes, i, cxx_wrap::julia_type<typename shape_type::value_type>());
-        }
-        return jl_apply_tuple_type(jtypes);
-    }
-
-    template <class T, std::size_t N>
-    inline jl_value_t* jltensor<T, N>::make_julia_array_type()
-    {
-        return cxx_wrap::apply_array_type(cxx_wrap::static_type_mapping<value_type>::julia_type(), N);
     }
 }
 

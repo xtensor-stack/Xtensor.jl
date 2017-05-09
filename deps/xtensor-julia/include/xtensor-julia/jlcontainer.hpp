@@ -84,6 +84,15 @@ namespace xt
         jl_array_t* p_array;
     };
 
+    /**********************************************
+     * make_julia_[shape/array]_type declarations *
+     **********************************************/
+
+    jl_datatype_t* make_julia_shape_type(std::size_t dimension);
+
+    template <class T>
+    jl_value_t* make_julia_array_type(std::size_t dimension);
+
     /******************************
      * jlcontainer implementation *
      ******************************/
@@ -131,6 +140,30 @@ namespace xt
         return layout_type::column_major;
     }
 
+    /**
+     * Return the julia shape type for a prescribed dimension.
+     * @param dimension the dimension of the array
+     */
+    inline jl_datatype_t* make_julia_shape_type(std::size_t dimension)
+    {
+        jl_svec_t* jtypes = jl_alloc_svec(dimension);
+        for (std::size_t i = 0; i < dimension; ++i)
+        {
+            jl_svecset(jtypes, i, cxx_wrap::julia_type<std::size_t>());
+        }
+        return jl_apply_tuple_type(jtypes);
+    }
+
+    /**
+     * Return the julia array type for the prescribed dimension.
+     * @tparam T the C++ value type of the array.
+     * @param dimension the dimension of the array.
+     */
+    template <class T>
+    inline jl_value_t* make_julia_array_type(std::size_t dimension)
+    {
+        return cxx_wrap::apply_array_type(cxx_wrap::static_type_mapping<T>::julia_type(), dimension);
+    }
 }
 
 #endif
