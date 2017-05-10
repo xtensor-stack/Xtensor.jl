@@ -104,8 +104,9 @@ link_directories(${Julia_LIBRARY_DIR}/julia)
 
 set(XTENSOR_JULIA_TESTS
     main.cpp
-    test_jltensor.cpp
     test_jlarray.cpp
+    test_jltensor.cpp
+    test_jlvectorize.cpp
 )
 
 set(XTENSOR_JULIA_TARGET test_xtensor_julia)
