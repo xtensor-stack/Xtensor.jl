@@ -25,9 +25,16 @@ Pkg.build("Xtensor")
 
 ## Usage
 
-`xtensor-julia` offers a container type, `jltensor` wrapping Julia arrays inplace to provide an xtensor semantics
+xtensor-julia offers two container types wrapping julia arrays inplace to provide an xtensor semantics
 
-This container enables the numpy-style APIs of xtensor (see [the numpy to xtensor cheat sheet](http://xtensor.readthedocs.io/en/latest/numpy.html)).
+ - `jltensor`
+ - `jlarray`.
+
+Both containers enable the numpy-style APIs of xtensor (see [the numpy to xtensor cheat sheet](http://xtensor.readthedocs.io/en/latest/numpy.html)).
+
+ - On the one hand, `jlarray` has a dynamic number of dimensions. It can be reshaped dynamically and the new shape is reflected on the Julia side.
+
+ - On the other hand `jltensor` has a compile time number of dimensions, specified with a template parameter. Shapes of `jltensor` instances are stack allocated, making `jltensor` a significantly faster expression than `jlarray`.
 
 ### Example 1: Use an algorithm of the C++ standard library with Julia array.
 
@@ -68,6 +75,34 @@ s
 ```
 1.1350859243855171
 ```
+
+## Building the HTML Documentation
+
+`xtensor-julia`'s documentation is built with three tools
+
+ - [doxygen](http://www.doxygen.org)
+ - [sphinx](http://www.sphinx-doc.org)
+ - [breathe](https://breathe.readthedocs.io)
+
+While doxygen must be installed separately, you can install breathe by typing
+
+```bash
+pip install breathe
+```
+
+Breathe can also be installed with `conda`
+
+```bash
+conda install -c conda-forge breathe
+```
+
+Finally, build the documentation with
+
+```bash
+make html
+```
+
+from the `docs` subdirectory.
 
 ## Running the C++ tests
 
