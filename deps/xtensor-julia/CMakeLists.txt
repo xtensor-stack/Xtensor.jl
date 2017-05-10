@@ -35,6 +35,7 @@ set(XTENSOR_JULIA_HEADERS
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jlbuffer_adaptor.hpp
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jlcontainer.hpp
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jltensor.hpp
+    ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jlvectorize.hpp
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/xtensor_julia_config.hpp
 )
 

@@ -76,6 +76,44 @@ s
 1.1350859243855171
 ```
 
+### Example 2: Create a numpy-style universal function from a C++ scalar function
+
+**C++ code**
+
+```cpp
+#include <cxx_wrap.hpp>
+#include "xtensor-julia/jlvectorize.hpp"
+
+double scalar_func(double i, double j)
+{
+    return std::sin(i) - std::cos(j);
+}
+
+JULIA_CPP_MODULE_BEGIN(registry)
+    cxx_wrap::Module mod = registry.create_module("xtensor_julia_test");
+    mod.method("vectorized_func", xt::jlvectorize(scalar_func));
+JULIA_CPP_MODULE_END
+```
+
+**Julia Code**
+
+```julia
+using xtensor_julia_test
+
+x = reshape(0:14, 3, 5)
+y = [1, 2, 3, 4, 5]
+z = xt.vectorized_func(x, y)
+z
+```
+
+**Outputs**
+
+```
+[[-0.540302,  1.257618,  1.89929 ,  0.794764, -1.040465],
+ [-1.499227,  0.136731,  1.646979,  1.643002,  0.128456],
+ [-1.084323, -0.583843,  0.45342 ,  1.073811,  0.706945]]
+```
+
 ## Building the HTML Documentation
 
 `xtensor-julia`'s documentation is built with three tools
