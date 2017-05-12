@@ -73,14 +73,16 @@ namespace xt
         using inner_backstrides_type = typename base_type::inner_backstrides_type;
 
         jltensor();
-        jltensor(const self_type&);
-        jltensor(self_type&&) = default;
         jltensor(nested_initializer_list_t<T, N> t);
+
         explicit jltensor(const shape_type& shape);
         explicit jltensor(const shape_type& shape, const_reference value);
         explicit jltensor(jl_array_t* jl);
 
+        jltensor(const self_type&);
         self_type& operator=(const self_type&);
+
+        jltensor(self_type&&) = default;
         self_type& operator=(self_type&&) = default;
 
         template <class E>

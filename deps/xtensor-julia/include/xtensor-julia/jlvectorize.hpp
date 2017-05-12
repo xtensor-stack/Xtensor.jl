@@ -9,6 +9,8 @@
 #ifndef JL_VECTORIZE_HPP
 #define JL_VECTORIZE_HPP
 
+#include <type_traits>
+
 #include "jlarray.hpp"
 #include "xtensor/xvectorize.hpp"
 
@@ -20,13 +22,13 @@ namespace xt
     {
         xvectorizer<Func, R> m_vectorizer;
 
-        template <class F>
+        template <class F, class = std::enable_if_t<!std::is_same<std::decay_t<F>, jlvectorizer>::value>>
         jlvectorizer(F&& func)
             : m_vectorizer(std::forward<F>(func))
         {
         }
 
-        inline jlarray<R> operator()(const jlarray<Args>&... args)
+        inline jlarray<R> operator()(const jlarray<Args>&... args) const
         {
             jlarray<R> res = m_vectorizer(args...);
             return res;
