@@ -82,7 +82,7 @@ namespace xt
 
         explicit jlarray(const shape_type& shape);
         explicit jlarray(const shape_type& shape, const_reference value);
-        explicit jlarray(jl_array_t* jl);
+        jlarray(jl_array_t* jl);
 
         jlarray(const self_type&);
         self_type& operator=(const self_type&);
@@ -398,6 +398,19 @@ namespace cxx_wrap
         xt::jlarray<T> operator()(jl_array_t* arr) const
         {
             return xt::jlarray<T>(arr);
+        }
+    };
+
+    // Conversions
+    template<class T>
+    struct static_type_mapping<xt::jlarray<T>>
+    {
+        using type = jl_array_t*;
+        static constexpr bool is_dynamic = false;
+
+        static jl_datatype_t* julia_type()
+        {
+            return (jl_datatype_t*)apply_array_type(static_type_mapping<T>::julia_type(), 1);
         }
     };
 }

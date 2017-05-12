@@ -6,6 +6,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 list(APPEND CMAKE_CXX_FLAGS "-std=c++14 -march=native")
 add_definitions(-DJULIA_ENABLE_THREADING)
+add_definitions(-DNOMINMAX)
 
 find_package(CxxWrap REQUIRED)
 find_package(xtensor REQUIRED)

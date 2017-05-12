@@ -77,7 +77,7 @@ namespace xt
 
         explicit jltensor(const shape_type& shape);
         explicit jltensor(const shape_type& shape, const_reference value);
-        explicit jltensor(jl_array_t* jl);
+        jltensor(jl_array_t* jl);
 
         jltensor(const self_type&);
         self_type& operator=(const self_type&);
