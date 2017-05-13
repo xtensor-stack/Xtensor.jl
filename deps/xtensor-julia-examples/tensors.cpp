@@ -39,12 +39,12 @@ xt::jlarray<double> example2(xt::jlarray<double> m)
 double readme_example1(xt::jlarray<double> m)
 {
     auto sines = xt::sin(m);
-    return std::accumulate(sines.begin(), sines.end(), 0.0);
+    return std::accumulate(sines.cbegin(), sines.cend(), 0.0);
 }
 
 double readme_example2(double i, double j)
 {
-    return std::sin(i) -  std::cos(j);
+    return std::sin(i) - std::cos(j);
 }
 
 // Vectorize Examples

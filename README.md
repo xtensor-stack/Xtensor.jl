@@ -46,10 +46,10 @@ Both containers enable the numpy-style APIs of xtensor (see [the numpy to xtenso
 #include "xtensor-julia/jltensor.hpp"     // Import the jltensor container definition
 #include "xtensor/xmath.hpp"              // xtensor import for the C++ universal functions
 
-double sum_of_sines(xt::jltensor<double, 2>& m)
+double sum_of_sines(xt::jltensor<double, 2> m)
 {
     auto sines = xt::sin(m);  // sines does not actually hold values.
-    return std::accumulate(sines.begin(), sines.end(), 0.0);
+    return std::accumulate(sines.cbegin(), sines.cend(), 0.0);
 }
 
 JULIA_CPP_MODULE_BEGIN(registry)
@@ -100,8 +100,8 @@ JULIA_CPP_MODULE_END
 ```julia
 using xtensor_julia_test
 
-x = reshape(0:14, 3, 5)
-y = [1, 2, 3, 4, 5]
+x = reshape(0.0:14.0, 3, 5)
+y = [1.0, 2.0, 3.0, 4.0, 5.0]
 z = xt.vectorized_func(x, y)
 z
 ```
