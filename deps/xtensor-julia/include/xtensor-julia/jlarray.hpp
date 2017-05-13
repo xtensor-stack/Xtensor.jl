@@ -401,7 +401,6 @@ namespace cxx_wrap
         }
     };
 
-    // Conversions
     template<class T>
     struct static_type_mapping<xt::jlarray<T>>
     {
@@ -410,7 +409,7 @@ namespace cxx_wrap
 
         static jl_datatype_t* julia_type()
         {
-            return (jl_datatype_t*)apply_array_type(static_type_mapping<T>::julia_type(), 1);
+            return cxx_wrap::julia_type("AbstractArray");
         }
     };
 }
