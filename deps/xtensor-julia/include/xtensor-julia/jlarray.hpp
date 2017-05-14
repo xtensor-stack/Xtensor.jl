@@ -409,7 +409,8 @@ namespace cxx_wrap
 
         static jl_datatype_t* julia_type()
         {
-            return cxx_wrap::julia_type("Array");
+            std::string cmd = "Array{" + cxx_wrap::julia_type_name(cxx_wrap::julia_type<T>()) + "}";
+            return (jl_datatype_t*)jl_eval_string(cmd.c_str());
         }
     };
 }
