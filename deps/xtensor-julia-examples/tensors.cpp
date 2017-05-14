@@ -26,7 +26,7 @@ double test_access(const xt::jltensor<double, 2> m)
 
 double example1(xt::jlarray<double> m)
 {
-    return m(0);
+    return m(0, 0);
 }
 
 xt::jlarray<double> example2(xt::jlarray<double> m)
@@ -49,7 +49,7 @@ double readme_example2(double i, double j)
 
 // Vectorize Examples
 
-int add(int i, int j)
+std::ptrdiff_t add(std::ptrdiff_t i, std::ptrdiff_t j)
 {
     return i + j;
 }

@@ -409,7 +409,7 @@ namespace cxx_wrap
 
         static jl_datatype_t* julia_type()
         {
-            return cxx_wrap::julia_type("AbstractArray");
+            return cxx_wrap::julia_type("Array");
         }
     };
 }

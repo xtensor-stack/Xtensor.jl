@@ -28,7 +28,7 @@ namespace xt
         {
         }
 
-        inline jlarray<R> operator()(const jlarray<Args>&... args) const
+        inline jlarray<R> operator()(jlarray<Args>... args) const
         {
             jlarray<R> res = m_vectorizer(args...);
             return res;
