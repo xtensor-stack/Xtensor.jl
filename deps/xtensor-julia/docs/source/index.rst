@@ -30,4 +30,17 @@ copyright on their contributions.
 
 This software is licensed under the BSD-3-Clause license. See the LICENSE file for details.
 
+.. toctree::
+   :caption: USAGE
+   :maxdepth: 2
+
+   basic_usage
+   array_tensor
+
+.. toctree::
+   :caption: API REFERENCE
+   :maxdepth: 2
+
+   api_reference
+
 .. _CxxWrap.jl: https://github.com/JuliaInterop/CxxWrap.jl
