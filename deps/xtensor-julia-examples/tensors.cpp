@@ -49,7 +49,7 @@ double readme_example2(double i, double j)
 
 // Vectorize Examples
 
-std::ptrdiff_t add(std::ptrdiff_t i, std::ptrdiff_t j)
+int_t add(int_t i, int_t j)
 {
     return i + j;
 }
