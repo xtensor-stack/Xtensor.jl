@@ -25,8 +25,8 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
-      env: COMPILER=gcc GCC=5
+            - g++-6
+      env: COMPILER=gcc GCC=6
     - os: osx
       osx_image: xcode8
       compiler: clang

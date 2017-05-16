@@ -140,7 +140,7 @@ namespace xt
         shape_type shape = make_sequence<shape_type>(0, size_type(1));
         m_strides = make_sequence<inner_strides_type>(0, size_type(0));
         m_backstrides = make_sequence<inner_backstrides_type>(0, size_type(0));
-        compute_strides(shape, layout_type::column_major, m_strides, m_backstrides);
+        xt::compute_strides(shape, layout_type::column_major, m_strides, m_backstrides);
         init_array(shape);
         m_data[0] = T();
     }
@@ -207,7 +207,7 @@ namespace xt
     {
         m_strides = make_sequence<inner_strides_type>(shape.size(), 0);
         m_backstrides = make_sequence<inner_backstrides_type>(shape.size(), 0);
-        compute_strides(shape, layout_type::column_major, m_strides, m_backstrides);
+        xt::compute_strides(shape, layout_type::column_major, m_strides, m_backstrides);
         init_array(shape);
     }
 
@@ -283,7 +283,7 @@ namespace xt
         shape_type shape = forward_sequence<shape_type>(e.derived_cast().shape());
         m_strides = make_sequence<inner_strides_type>(shape.size(), 0);
         m_backstrides = make_sequence<inner_backstrides_type>(shape.size(), 0);
-        compute_strides(shape, layout_type::column_major, m_strides, m_backstrides);
+        xt::compute_strides(shape, layout_type::column_major, m_strides, m_backstrides);
         init_array(shape);
         semantic_base::assign(e);
     }
@@ -324,7 +324,7 @@ namespace xt
         m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),
                                 static_cast<size_type>(jl_array_len(this->p_array)));
         m_shape = inner_shape_type(&(this->p_array->nrows), this->p_array->flags.ndims);
-        compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
+        xt::compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
     }
 
     template <class T>
