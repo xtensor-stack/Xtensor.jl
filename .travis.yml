@@ -25,8 +25,8 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
-      env: COMPILER=gcc GCC=5
+            - g++-6
+      env: COMPILER=gcc GCC=6
     - os: osx
       osx_image: xcode8
       compiler: clang
@@ -72,7 +72,7 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.10.0 -c conda-forge
+    - conda install xtensor==0.10.2 -c conda-forge
     - cd deps/xtensor-julia/test
     - conda env create -f ./test-environment.yml
     - source activate test-xtensor-julia

@@ -40,7 +40,7 @@ for l in example_labels
 end
 
 # Version of xtensor-core to vendor
-xtensor_version = "0.10.0"
+xtensor_version = "0.10.2"
 
 xtensor_core_steps = @build_steps begin
   `git clone -b $xtensor_version --single-branch https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
