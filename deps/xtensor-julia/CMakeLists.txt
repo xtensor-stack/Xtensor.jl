@@ -32,7 +32,6 @@ message(STATUS "xtensor-julia v${${PROJECT_NAME}_VERSION}")
 
 set(XTENSOR_JULIA_HEADERS
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jlarray.hpp
-    ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jlbuffer_adaptor.hpp
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jlcontainer.hpp
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jltensor.hpp
     ${XTENSOR_JULIA_INCLUDE_DIR}/xtensor-julia/jlvectorize.hpp

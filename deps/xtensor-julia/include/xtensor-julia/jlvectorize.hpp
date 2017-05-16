@@ -11,8 +11,9 @@
 
 #include <type_traits>
 
-#include "jlarray.hpp"
 #include "xtensor/xvectorize.hpp"
+
+#include "jlarray.hpp"
 
 namespace xt
 {
