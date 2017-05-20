@@ -11,6 +11,7 @@ matrix:
           packages:
             - g++-4.9
       env: COMPILER=gcc GCC=4.9
+      julia: 0.5
     - os: linux
       addons:
         apt:
@@ -19,6 +20,16 @@ matrix:
           packages:
             - g++-5
       env: COMPILER=gcc GCC=5
+      julia: 0.6
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: COMPILER=gcc GCC=5
+      julia: 0.5
     - os: linux
       addons:
         apt:
@@ -27,6 +38,7 @@ matrix:
           packages:
             - g++-6
       env: COMPILER=gcc GCC=6
+      julia: 0.5
     - os: osx
       osx_image: xcode8
       compiler: clang
@@ -48,13 +60,6 @@ before_install:
         fi
       elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         export CXX=clang++ CC=clang;
-      fi
-    - |
-      # Install Julia from PPA
-      if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-          sudo add-apt-repository ppa:staticfloat/juliareleases -y
-          sudo apt-get update -q
-          sudo apt-get install julia -y
       fi
 
 install:
@@ -80,9 +85,9 @@ install:
     # Install CxxWrap
     - julia -E "Pkg.add(\"CxxWrap\")"
     # Build pure Cpp tests
-    - CxxWrap_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\")")
-    - CxxWrap_DIR=${CxxWrap_DIR//\"/}
-    - cmake -D BUILD_TESTS=ON -D CxxWrap_DIR=$CxxWrap_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
+    - JlCxx_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"share\", \"cmake\", \"JlCxx\")")
+    - JlCxx_DIR=${JlCxx_DIR//\"/}
+    - cmake -D BUILD_TESTS=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
     - make -j2 test_xtensor_julia
     # Build Julia Package
     - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"

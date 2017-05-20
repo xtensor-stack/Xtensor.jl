@@ -23,7 +23,7 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     find_package(xtensor REQUIRED CONFIG)
     set(XTENSOR_INCLUDE_DIR ${xtensor_INCLUDE_DIRS})
 
-    find_package(CxxWrap REQUIRED CONFIG)
+    find_package(JlCxx REQUIRED CONFIG)
 
     find_package(xtensor-julia REQUIRED CONFIG)
     set(XTENSOR_JULIA_INCLUDE_DIR ${xtensor-julia_INCLUDE_DIRS})
@@ -93,10 +93,10 @@ endif()
 
 find_package(Threads)
 
-get_property(CxxWrap_INCLUDE_DIRS TARGET CxxWrap::cxx_wrap PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
+get_property(JlCxx_INCLUDE_DIRS TARGET JlCxx::jlcxx PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
 
 include_directories(${Julia_INCLUDE_DIRS})
-include_directories(${CxxWrap_INCLUDE_DIRS})
+include_directories(${JlCxx_INCLUDE_DIRS})
 include_directories(${XTENSOR_INCLUDE_DIR})
 include_directories(${GTEST_INCLUDE_DIRS})
 
@@ -116,7 +116,7 @@ add_executable(${XTENSOR_JULIA_TARGET} ${XTENSOR_JULIA_TESTS} ${XTENSOR_JULIA_HE
 if(DOWNLOAD_GTEST OR GTEST_SRC_DIR)
     add_dependencies(${XTENSOR_JULIA_TARGET} gtest_main)
 endif()
-target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} CxxWrap::cxx_wrap)
+target_link_libraries(${XTENSOR_JULIA_TARGET} ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Julia_LIBRARY} JlCxx::jlcxx)
 
 if(UNIX)
     add_custom_target(xtest COMMAND export JULIA_HOME=${JULIA_HOME} && ./test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})

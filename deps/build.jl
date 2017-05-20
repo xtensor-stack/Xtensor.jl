@@ -4,8 +4,8 @@ using CxxWrap
 @BinDeps.setup
 
 build_type = "Release"
-cxx_wrap_dir = Pkg.dir("CxxWrap", "deps", "usr", "lib", "cmake")
-xtensor_dir = Pkg.dir("Xtensor", "deps", "usr", "lib", "cmake")
+jlcxx_dir = Pkg.dir("CxxWrap", "deps", "usr", "share", "cmake", "JlCxx")
+xtensor_dir = Pkg.dir("Xtensor", "deps", "usr", "share", "cmake", "xtensor")
 
 prefix                    = Pkg.dir("Xtensor", "deps", "usr")
 xtensor_core_srcdir       = Pkg.dir("Xtensor", "deps", "xtensor")
@@ -54,7 +54,7 @@ xtensor_julia_steps = @build_steps begin
 end
 
 xtensor_examples_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DCxxWrap_DIR=$cxx_wrap_dir -Dxtensor_DIR=$xtensor_dir $xtensor_examples_srcdir`
+  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DJlCxx_DIR=$jlcxx_dir -Dxtensor_DIR=$xtensor_dir $xtensor_examples_srcdir`
   `cmake --build . --config $build_type --target install`
 end
 
