@@ -149,7 +149,7 @@ from the `docs` subdirectory.
 From `deps/build`
 
 ```
-cmake -D CxxWrap_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_TESTS=ON ..
+cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_TESTS=ON ..
 ```
 
 ## Dependencies on `xtensor` and `CxxWrap`
@@ -158,7 +158,8 @@ cmake -D CxxWrap_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_T
 
 | `xtensor-jula`  | `xtensor` | `CxxWrap` |
 |-----------------|-----------|-----------|
-| master          |  ^0.10.0  | ^0.3.0    |
+| master          |  ^0.10.2  | ^0.4.0    |
+| 0.0.1           |  ^0.10.2  | ^0.4.0    |
 
 These dependencies are automatically resolved when using the Julia package manager.
 
