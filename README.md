@@ -19,7 +19,7 @@ The Julia bindings for `xtensor` are based on the [CxxWrap.jl](https://github.co
 ## Installation
 
 ```julia
-Pkg.clone("https://github.com/QuantStack/xtensor-julia", "Xtensor");
+Pkg.clone("https://github.com/QuantStack/Xtensor.jl", "Xtensor");
 Pkg.build("Xtensor")
 ```
 
@@ -149,7 +149,7 @@ from the `docs` subdirectory.
 From `deps/build`
 
 ```
-cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/lib/cmake/ -D BUILD_TESTS=ON ..
+cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/share/cmake/JlCxx -D BUILD_TESTS=ON ..
 ```
 
 ## Dependencies on `xtensor` and `CxxWrap`
