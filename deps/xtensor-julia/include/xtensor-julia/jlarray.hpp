@@ -17,7 +17,7 @@
 #include "xtensor/xbuffer_adaptor.hpp"
 #include "xtensor/xsemantic.hpp"
 
-#include "type_conversion.hpp"
+#include "jlcxx/type_conversion.hpp"
 
 #include "jlcontainer.hpp"
 
@@ -40,7 +40,7 @@ namespace xt
     template <class T>
     struct xcontainer_inner_types<jlarray<T>>
     {
-        using container_type = xbuffer_adaptor<cxx_wrap::mapped_julia_type<T>>;
+        using container_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>>;
         using shape_type = std::vector<std::size_t>;
         using strides_type = shape_type;
         using backstrides_type = shape_type;
@@ -376,7 +376,7 @@ namespace xt
     }
 }
 
-namespace cxx_wrap
+namespace jlcxx
 {
     /****************************************************************
      * Template specializations for ConvertToJulia and ConvertToCpp *
@@ -412,7 +412,7 @@ namespace cxx_wrap
             // Array{T}
             return (jl_datatype_t*)apply_type(
                 jl_get_global(jl_current_module, jl_symbol("Array")),
-                jl_svec1(cxx_wrap::julia_type<T>())
+                jl_svec1(jlcxx::julia_type<T>())
             );
         }
     };

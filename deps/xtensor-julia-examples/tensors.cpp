@@ -6,9 +6,9 @@
 * The full license is in the file LICENSE, distributed with this software. *
 ****************************************************************************/
 
-#include <cxx_wrap.hpp>
-
 #include <numeric>
+
+#include "jlcxx/jlcxx.hpp"
 
 #include "xtensor/xmath.hpp"
 #include "xtensor/xarray.hpp"
@@ -57,7 +57,7 @@ int_t add(int_t i, int_t j)
 namespace tensors
 {
 
-    void init_tensor_module(cxx_wrap::Module& mod)
+    void init_tensor_module(jlcxx::Module& mod)
     {
         // Test jltensor
         mod.method("test_access", test_access);

@@ -40,17 +40,17 @@ install:
   # Run Julia Pkg build
   - C:\projects\julia-build\bin\julia -E "Pkg.clone(pwd(), \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
   # Build pure Cpp tests
-  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\")" > temp.txt
-  - set /p CxxWrap_DIR=<temp.txt
-  - set CxxWrap_DIR=%CxxWrap_DIR:"=%
+  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"share\", \"cmake\", \"JlCxx\")" > temp.txt
+  - set /p JlCxx_DIR=<temp.txt
+  - set JlCxx_DIR=%JlCxx_DIR:"=%
   - cd deps\xtensor-julia
-  - cmake -G "NMake Makefiles" -D CxxWrap_DIR=%CxxWrap_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D CMAKE_PROGRAM_PATH=C:\projects\julia-build\bin\ .
+  - cmake -G "NMake Makefiles" -D JlCxx_DIR=%JlCxx_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D CMAKE_PROGRAM_PATH=C:\projects\julia-build\bin\ .
   - nmake test_xtensor_julia
 
 build_script:
   - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\")" > temp.txt
-  - set /p CxxWrap_BINDIR=<temp.txt
-  - set CxxWrap_BINDIR=%CxxWrap_BINDIR:"=%
-  - set PATH=%PATH%;C:\projects\julia-build\bin;%CxxWrap_BINDIR%
+  - set /p JlCxx_BINDIR=<temp.txt
+  - set JlCxx_BINDIR=%JlCxx_BINDIR:"=%
+  - set PATH=%PATH%;C:\projects\julia-build\bin;%JlCxx_BINDIR%
   - nmake xtest
 

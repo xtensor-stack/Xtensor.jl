@@ -15,7 +15,12 @@
 int main(int argc, char* argv[])
 {
     // Initialize all the things (google-test and Julia interpreter)
+#if JULIA_VERSION_MAJOR == 0 && JULIA_VERSION_MINOR < 6
     jl_init(NULL);
+#else
+    jl_init();
+#endif
+
     ::testing::InitGoogleTest(&argc, argv);
 
     // Run test suite

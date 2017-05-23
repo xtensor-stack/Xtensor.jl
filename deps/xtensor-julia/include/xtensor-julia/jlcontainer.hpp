@@ -149,7 +149,7 @@ namespace xt
         jl_svec_t* jtypes = jl_alloc_svec(dimension);
         for (std::size_t i = 0; i < dimension; ++i)
         {
-            jl_svecset(jtypes, i, cxx_wrap::julia_type<std::size_t>());
+            jl_svecset(jtypes, i, jlcxx::julia_type<std::size_t>());
         }
         return jl_apply_tuple_type(jtypes);
     }
@@ -162,7 +162,7 @@ namespace xt
     template <class T>
     inline jl_value_t* make_julia_array_type(std::size_t dimension)
     {
-        return cxx_wrap::apply_array_type(cxx_wrap::static_type_mapping<T>::julia_type(), dimension);
+        return jlcxx::apply_array_type(jlcxx::static_type_mapping<T>::julia_type(), dimension);
     }
 }
 

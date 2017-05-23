@@ -8,7 +8,7 @@ list(APPEND CMAKE_CXX_FLAGS "-std=c++14 -march=native")
 add_definitions(-DJULIA_ENABLE_THREADING)
 add_definitions(-DNOMINMAX)
 
-find_package(CxxWrap REQUIRED)
+find_package(JlCxx REQUIRED)
 find_package(xtensor REQUIRED)
 find_package(xtensor-julia REQUIRED)
 
@@ -16,7 +16,7 @@ include_directories(${xtensor_INCLUDE_DIRS})
 include_directories(${xtensor-julia_INCLUDE_DIRS})
 
 add_library(tensors SHARED tensors.cpp)
-target_link_libraries(tensors CxxWrap::cxx_wrap)
+target_link_libraries(tensors JlCxx::jlcxx)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
