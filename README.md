@@ -1,6 +1,6 @@
 # ![xtensor-julia](http://quantstack.net/assets/images/xtensor-julia.svg)
 
-[![Travis](https://travis-ci.org/QuantStack/xtensor-julia.svg?branch=master)](https://travis-ci.org/QuantStack/xtensor-julia)
+[![Travis](https://travis-ci.org/QuantStack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/QuantStack/Xtensor.jl)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/jpvvk2m35d1q8woq?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-julia)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -156,10 +156,10 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/share/cmake/JlCxx -D BU
 
 `xtensor-julia` depends on the `xtensor` and `CxxWrap` libraries
 
-| `xtensor-jula`  | `xtensor` | `CxxWrap` |
-|-----------------|-----------|-----------|
-| master          |  ^0.10.2  | ^0.4.0    |
-| 0.0.1           |  ^0.10.2  | ^0.4.0    |
+| `xtensor-julia`  | `xtensor` | `CxxWrap` |
+|------------------|-----------|-----------|
+| master           |  ^0.10.2  | ^0.4.0    |
+| 0.0.1            |  ^0.10.2  | ^0.4.0    |
 
 These dependencies are automatically resolved when using the Julia package manager.
 
