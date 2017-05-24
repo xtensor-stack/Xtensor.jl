@@ -5,15 +5,15 @@ using CxxWrap
 
 build_type = "Release"
 jlcxx_dir = Pkg.dir("CxxWrap", "deps", "usr", "share", "cmake", "JlCxx")
-xtensor_dir = Pkg.dir("Xtensor", "deps", "usr", "share", "cmake", "xtensor")
+xtensor_dir = joinpath(dirname(@__FILE__), "usr", "share", "cmake", "xtensor")
 
-prefix                    = Pkg.dir("Xtensor", "deps", "usr")
-xtensor_core_srcdir       = Pkg.dir("Xtensor", "deps", "xtensor")
-xtensor_julia_srcdir      = Pkg.dir("Xtensor", "deps", "xtensor-julia")
-xtensor_examples_srcdir   = Pkg.dir("Xtensor", "deps", "xtensor-julia-examples")
-xtensor_core_builddir     = Pkg.dir("Xtensor", "builds", "xtensor")
-xtensor_julia_builddir    = Pkg.dir("Xtensor", "builds", "xtensor-julia")
-xtensor_examples_builddir = Pkg.dir("Xtensor", "builds", "xtensor-julia-examples")
+prefix                    = joinpath(dirname(@__FILE__), "usr")
+xtensor_core_srcdir       = joinpath(dirname(@__FILE__), "xtensor")
+xtensor_julia_srcdir      = joinpath(dirname(@__FILE__), "xtensor-julia")
+xtensor_examples_srcdir   = joinpath(dirname(@__FILE__), "xtensor-julia-examples")
+xtensor_core_builddir     = joinpath(dirname(@__FILE__), "..", "builds", "xtensor")
+xtensor_julia_builddir    = joinpath(dirname(@__FILE__), "..", "builds", "xtensor-julia")
+xtensor_examples_builddir = joinpath(dirname(@__FILE__), "..", "builds", "xtensor-julia-examples")
 
 # Set generator if on windows
 @static if is_windows()
