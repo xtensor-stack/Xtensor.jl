@@ -11,6 +11,15 @@ matrix:
           packages:
             - g++-4.9
       env: COMPILER=gcc GCC=4.9
+      julia: 0.4
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env: COMPILER=gcc GCC=4.9
       julia: 0.5
     - os: linux
       addons:
@@ -53,6 +62,7 @@ matrix:
       compiler: clang
       julia: 0.5
   allow_failures:
+    - julia: 0.4
     - julia: nightly
 env:
   global:
@@ -88,7 +98,7 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.10.4 -c conda-forge
+    - conda install xtensor==0.10.7 -c conda-forge
     - cd deps/xtensor-julia/test
     - conda env create -f ./test-environment.yml
     - source activate test-xtensor-julia
