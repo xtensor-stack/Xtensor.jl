@@ -70,6 +70,8 @@ namespace tensors
 
         mod.method("vectorize_example1", xt::jlvectorize(add));
 
+        mod.method("rect_to_polar", xt::jlvectorize([](const std::complex<double> x) { return std::abs(x); }));
+
         mod.method("compare_shapes", [](const xt::jlarray<double> a, const xt::jlarray<double> b) {
             return a.shape() == b.shape();
         });
