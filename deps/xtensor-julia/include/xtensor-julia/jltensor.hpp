@@ -12,6 +12,7 @@
 #include <cstddef>
 #include <array>
 #include <algorithm>
+#include <complex>
 #include <exception>
 
 #include "xtensor/xbuffer_adaptor.hpp"
@@ -41,6 +42,19 @@ namespace xt
     struct xcontainer_inner_types<jltensor<T, N>>
     {
         using container_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>>;
+        using shape_type = std::array<std::size_t, N>;
+        using strides_type = shape_type;
+        using backstrides_type = shape_type;
+        using inner_shape_type = shape_type;
+        using inner_strides_type = strides_type;
+        using inner_backstrides_type = backstrides_type;
+        using temporary_type = jltensor<T, N>;
+    };
+
+    template <class T, std::size_t N>
+    struct xcontainer_inner_types<jltensor<std::complex<T>, N>>
+    {
+        using container_type = xbuffer_adaptor<std::complex<T>>;
         using shape_type = std::array<std::size_t, N>;
         using strides_type = shape_type;
         using backstrides_type = shape_type;
