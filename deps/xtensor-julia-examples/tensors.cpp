@@ -54,6 +54,37 @@ int_t add(int_t i, int_t j)
     return i + j;
 }
 
+#include "jlcxx/jlcxx.hpp"
+#include "jlcxx/functions.hpp"
+#include "xtensor-julia/jltensor.hpp"     // Import the jltensor container definition
+#include "xtensor-julia/jlarray.hpp"     // Import the jltensor container definition
+#include "xtensor/xmath.hpp"              // xtensor import for the C++ universal functions
+
+#include <complex>
+
+template<typename el_t>
+struct summer {
+  el_t sum;
+  summer() { sum = 0; }
+  void operator()(el_t e) { sum += e; }
+};
+
+template<typename el_t>
+void expose_sum (const char* name, jlcxx::Module& mod) {
+
+  typedef summer<el_t> accum_t;
+  auto sum_t = mod.add_type<accum_t>(name);
+  mod.method ("sum", [](accum_t const& a) { return a.sum; });
+  mod.method ("call", [](accum_t& a, xt::jlarray<el_t>  s) {
+      for (auto e : s) a(e);
+      //for (auto e : s) a(e);
+      return a;
+    });
+  mod.method ("inc", [](xt::jltensor<el_t,1> s) {
+      s[0] += 1;
+    });
+}
+
 namespace tensors
 {
 
@@ -75,6 +106,11 @@ namespace tensors
         mod.method("compare_shapes", [](const xt::jlarray<double> a, const xt::jlarray<double> b) {
             return a.shape() == b.shape();
         });
+  
+        expose_sum<double> ("sum_double", mod);
+        expose_sum<std::complex<double>> ("sum_complex", mod);
+
+
     }
 }
 
