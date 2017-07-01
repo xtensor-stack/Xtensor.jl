@@ -6,11 +6,11 @@
 * The full license is in the file LICENSE, distributed with this software. *
 ****************************************************************************/
 
-#ifndef XTENSOR_PYTHON_CONFIG_HPP
-#define XTENSOR_PYTHON_CONFIG_HPP
+#ifndef XTENSOR_JULIA_CONFIG_HPP
+#define XTENSOR_JULIA_CONFIG_HPP
 
-#define XTENSOR_PYTHON_VERSION_MAJOR 0
-#define XTENSOR_PYTHON_VERSION_MINOR 0
-#define XTENSOR_PYTHON_VERSION_PATCH 2
+#define XTENSOR_JULIA_VERSION_MAJOR 0
+#define XTENSOR_JULIA_VERSION_MINOR 0
+#define XTENSOR_JULIA_VERSION_PATCH 2
 
 #endif
