@@ -159,6 +159,7 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/share/cmake/JlCxx -D BU
 | `xtensor-julia`  | `xtensor` | `CxxWrap` |
 |------------------|-----------|-----------|
 | master           |  ^0.10.2  | ^0.4.0    |
+| 0.0.3            |  ^0.10.2  | ^0.4.1    |
 | 0.0.2            |  ^0.10.2  | ^0.4.1    |
 | 0.0.1            |  ^0.10.2  | ^0.4.0    |
 
