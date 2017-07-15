@@ -29,6 +29,15 @@ matrix:
           packages:
             - g++-5
       env: COMPILER=gcc GCC=5
+      julia: nightly
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: COMPILER=gcc GCC=5
       julia: 0.5
     - os: linux
       addons:
@@ -43,6 +52,8 @@ matrix:
       osx_image: xcode8
       compiler: clang
       julia: 0.5
+  allow_failures:
+    - julia: nightly
 env:
   global:
     - MINCONDA_VERSION="latest"

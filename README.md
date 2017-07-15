@@ -158,7 +158,7 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/share/cmake/JlCxx -D BU
 
 | `xtensor-julia`  | `xtensor` | `CxxWrap` |
 |------------------|-----------|-----------|
-| master           |  ^0.10.2  | ^0.4.0    |
+| master           |  ^0.10.7  | ^0.5.0    |
 | 0.0.3            |  ^0.10.2  | ^0.4.1    |
 | 0.0.2            |  ^0.10.2  | ^0.4.1    |
 | 0.0.1            |  ^0.10.2  | ^0.4.0    |
@@ -167,7 +167,6 @@ These dependencies are automatically resolved when using the Julia package manag
 
 ## License
 
-We use a shared copyright model that enables all contributors to maintain the
-copyright on their contributions.
+We use a shared copyright model that enables all contributors to maintain the copyright on their contributions.
 
 This software is licensed under the BSD-3-Clause license. See the [LICENSE](LICENSE) file for details.
