@@ -9,10 +9,10 @@
 #ifndef XARRAY_JULIA_HPP
 #define XARRAY_JULIA_HPP
 
-#include <cstddef>
-#include <array>
 #include <algorithm>
+#include <array>
 #include <complex>
+#include <cstddef>
 #include <exception>
 
 #include "xtensor/xbuffer_adaptor.hpp"
@@ -74,8 +74,8 @@ namespace xt
         using semantic_base = xcontainer_semantic<self_type>;
         using base_type = jlcontainer<self_type>;
         using container_type = typename base_type::container_type;
-        using value_type = typename base_type::value_type; 
-        using reference = typename base_type::reference; 
+        using value_type = typename base_type::value_type;
+        using reference = typename base_type::reference;
         using const_reference = typename base_type::const_reference;
         using pointer = typename base_type::pointer;
         using size_type = typename base_type::size_type;
@@ -316,7 +316,7 @@ namespace xt
     template <class T>
     inline void jlarray<T>::init_array(const shape_type& shape)
     {
-        jl_value_t* array_type = make_julia_array_type<value_type>(shape.size()); 
+        jl_value_t* array_type = make_julia_array_type<value_type>(shape.size());
         jl_datatype_t* tuple_type = make_julia_shape_type(shape.size());
 
         // allocate array
@@ -326,7 +326,7 @@ namespace xt
         // setup buffer adaptor
         m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),
                                 static_cast<size_type>(jl_array_len(this->p_array)));
-        
+
         m_shape = inner_shape_type(&(this->p_array->nrows), this->p_array->flags.ndims);
     }
 
@@ -415,7 +415,7 @@ namespace jlcxx
         }
     };
 
-    template<class T>
+    template <class T>
     struct static_type_mapping<xt::jlarray<T>>
     {
         using type = jl_array_t*;
@@ -426,8 +426,7 @@ namespace jlcxx
             // Array{T}
             return (jl_datatype_t*)apply_type(
                 jl_get_global(jl_current_module, jl_symbol("Array")),
-                jl_svec1(jlcxx::julia_type<T>())
-            );
+                jl_svec1(jlcxx::julia_type<T>()));
         }
     };
 }

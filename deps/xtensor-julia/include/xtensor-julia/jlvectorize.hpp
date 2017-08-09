@@ -40,14 +40,14 @@ namespace xt
      * @brief Create numpy-style universal function from scalar function.
      */
     template <class R, class... Args>
-    inline jlvectorizer<R(*)(Args...), R, Args...> jlvectorize(R(*f) (Args...))
+    inline jlvectorizer<R (*)(Args...), R, Args...> jlvectorize(R (*f)(Args...))
     {
-        return jlvectorizer<R(*) (Args...), R, Args...>(f);
+        return jlvectorizer<R (*)(Args...), R, Args...>(f);
     }
 
     /// @cond DOXYGEN_INCLUDE_OVERLOADS
     template <class F, class R, class... Args>
-    inline jlvectorizer<F, R, Args...> jlvectorize(F&& f, R(*) (Args...))
+    inline jlvectorizer<F, R, Args...> jlvectorize(F&& f, R (*)(Args...))
     {
         return jlvectorizer<F, R, Args...>(std::forward<F>(f));
     }

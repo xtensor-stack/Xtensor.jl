@@ -9,9 +9,9 @@
 #ifndef XCONTAINER_JULIA_HPP
 #define XCONTAINER_JULIA_HPP
 
-#include <cstddef>
-#include <array>
 #include <algorithm>
+#include <array>
+#include <cstddef>
 #include <exception>
 
 #include "xtensor/xcontainer.hpp"
@@ -66,9 +66,9 @@ namespace xt
         using base_type::operator[];
         using base_type::begin;
         using base_type::end;
- 
+
         jl_array_t* wrapped() noexcept;
- 
+
     protected:
 
         jlcontainer() = default;
@@ -167,4 +167,3 @@ namespace xt
 }
 
 #endif
-

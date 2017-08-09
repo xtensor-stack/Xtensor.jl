@@ -9,10 +9,10 @@
 #ifndef XTENSOR_JULIA_HPP
 #define XTENSOR_JULIA_HPP
 
-#include <cstddef>
-#include <array>
 #include <algorithm>
+#include <array>
 #include <complex>
+#include <cstddef>
 #include <exception>
 
 #include "xtensor/xbuffer_adaptor.hpp"
@@ -74,8 +74,8 @@ namespace xt
         using semantic_base = xcontainer_semantic<self_type>;
         using base_type = jlcontainer<self_type>;
         using container_type = typename base_type::container_type;
-        using value_type = typename base_type::value_type; 
-        using reference = typename base_type::reference; 
+        using value_type = typename base_type::value_type;
+        using reference = typename base_type::reference;
         using const_reference = typename base_type::const_reference;
         using pointer = typename base_type::pointer;
         using size_type = typename base_type::size_type;
@@ -261,7 +261,7 @@ namespace xt
     template <class T, std::size_t N>
     inline void jltensor<T, N>::init_tensor(const shape_type& shape)
     {
-        static jl_value_t* array_type = make_julia_array_type<value_type>(N); 
+        static jl_value_t* array_type = make_julia_array_type<value_type>(N);
         static jl_datatype_t* tuple_type = make_julia_shape_type(N);
 
         // allocate array
@@ -336,7 +336,7 @@ namespace xt
     }
 }
 
-namespace jlcxx 
+namespace jlcxx
 {
     /****************************************************************
      * Template specializations for ConvertToJulia and ConvertToCpp *
@@ -362,7 +362,7 @@ namespace jlcxx
     };
 
     // Conversions
-    template<class T, std::size_t N>
+    template <class T, std::size_t N>
     struct static_type_mapping<xt::jltensor<T, N>>
     {
         using type = jl_array_t*;
