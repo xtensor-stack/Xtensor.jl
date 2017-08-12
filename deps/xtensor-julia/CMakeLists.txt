@@ -63,8 +63,9 @@ include(CMakePackageConfigHelpers)
 install(FILES ${XTENSOR_JULIA_HEADERS}
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/xtensor-julia)
 
-# GNUInstallDirs "DATADIR" wrong here; CMake search path wants "share".
-set(XTENSOR_JULIA_CMAKECONFIG_INSTALL_DIR "share/cmake/${PROJECT_NAME}" CACHE STRING "install path for xtensor-juliaConfig.cmake")
+set(XTENSOR_JULIA_CMAKECONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}" CACHE
+    STRING "install path for xtensor-juliaConfig.cmake")
+
 
 configure_package_config_file(${PROJECT_NAME}Config.cmake.in
                               "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
