@@ -210,7 +210,7 @@ namespace xt
      */
     template <class T, std::size_t N>
     inline jltensor<T, N>::jltensor(const self_type& rhs)
-        : base_type(), m_shape(rhs.shape())
+        : base_type(), semantic_base(rhs), m_shape(rhs.shape())
     {
         xt::compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
