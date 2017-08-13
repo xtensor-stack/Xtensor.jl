@@ -259,6 +259,7 @@ namespace xt
      */
     template <class T>
     inline jlarray<T>::jlarray(const self_type& rhs)
+        : base_type(rhs), semantic_base(rhs)
     {
         m_strides = rhs.m_strides;
         m_backstrides = rhs.m_backstrides;
