@@ -49,6 +49,7 @@ namespace xt
         using inner_strides_type = strides_type;
         using inner_backstrides_type = backstrides_type;
         using temporary_type = jltensor<T, N>;
+        static constexpr layout_type layout = layout_type::column_major;
     };
 
     template <class T, std::size_t N>
@@ -62,6 +63,7 @@ namespace xt
         using inner_strides_type = strides_type;
         using inner_backstrides_type = backstrides_type;
         using temporary_type = jltensor<T, N>;
+        static constexpr layout_type layout = layout_type::column_major;
     };
 
     template <class T, std::size_t N>
