@@ -104,7 +104,7 @@ namespace xt
     template <class D>
     inline void jlcontainer<D>::reshape(const shape_type& shape)
     {
-        if (shape.size() != this->dimension() || !std::equal(shape.begin(), shape.end(), this->shape().begin()))
+        if (shape.size() != this->dimension() || !std::equal(shape.cbegin(), shape.cend(), this->shape().cbegin()))
         {
             derived_type tmp(shape);
             *static_cast<derived_type*>(this) = std::move(tmp);
