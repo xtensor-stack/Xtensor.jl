@@ -158,11 +158,10 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/share/cmake/JlCxx -D BU
 
 | `xtensor-julia`  | `xtensor` | `CxxWrap` |
 |------------------|-----------|-----------|
-| master           |  ^0.10.10 | ^0.5.0    |
+| master           |  ^0.11.0  | ^0.5.0    |
+| 0.0.5            |  ^0.10.10 | ^0.5.0    |
 | 0.0.4            |  ^0.10.10 | ^0.5.0    |
 | 0.0.3            |  ^0.10.2  | ^0.4.1    |
-| 0.0.2            |  ^0.10.2  | ^0.4.1    |
-| 0.0.1            |  ^0.10.2  | ^0.4.0    |
 
 These dependencies are automatically resolved when using the Julia package manager.
 

@@ -5,7 +5,7 @@ using CxxWrap
 
 build_type = "Release"
 jlcxx_dir = Pkg.dir("CxxWrap", "deps", "usr", "share", "cmake", "JlCxx")
-xtensor_dir = joinpath(dirname(@__FILE__), "usr", "share", "cmake", "xtensor")
+xtensor_dir = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtensor")
 
 prefix                    = joinpath(dirname(@__FILE__), "usr")
 xtensor_core_srcdir       = joinpath(dirname(@__FILE__), "xtensor")
