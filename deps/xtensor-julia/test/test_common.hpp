@@ -9,12 +9,8 @@
 #ifndef TEST_COMMON_HPP
 #define TEST_COMMON_HPP
 
-#include <vector>
-#include <cstddef>
-
-#include "xtensor/xstrides.hpp"
-#include "xtensor/xcontainer.hpp"
-#include "xtensor/xstorage.hpp"
+#include "xtensor/xlayout.hpp"
+#include "xtensor/xstridedview.hpp"
 
 namespace xt
 {
@@ -42,18 +38,18 @@ namespace xt
 
         inline layout_result()
         {
-            m_shape = { 3, 2, 4 };
+            m_shape = {3, 2, 4};
             m_assigner.resize(m_shape[0]);
-            for (std::size_t i = 0; i < std::size_t(m_shape[0]); ++i)
+            for (size_type i = 0; i < m_shape[0]; ++i)
             {
                 m_assigner[i].resize(m_shape[1]);
             }
-            m_assigner[0][0] = { -1, 1, 2, 3 };
-            m_assigner[0][1] = { 4, 5, 6, 7 };
-            m_assigner[1][0] = { 8, 9, 10, 11 };
-            m_assigner[1][1] = { 12, 13, 14, 15 };
-            m_assigner[2][0] = { 16, 17, 18, 19 };
-            m_assigner[2][1] = { 20, 21, 22, 23 };
+            m_assigner[0][0] = {-1, 1, 2, 3};
+            m_assigner[0][1] = {4, 5, 6, 7};
+            m_assigner[1][0] = {8, 9, 10, 11};
+            m_assigner[1][1] = {12, 13, 14, 15};
+            m_assigner[2][0] = {16, 17, 18, 19};
+            m_assigner[2][1] = {20, 21, 22, 23};
         }
 
         shape_type m_shape;
@@ -74,12 +70,12 @@ namespace xt
     {
         inline column_major_result()
         {
-            this->m_strides = { 1, 3, 6 };
-            this->m_backstrides = { 2, 3, 18 };
-            this->m_data = { -1, 8, 16, 4, 12, 20,
-                              1, 9, 17, 5, 13, 21,
-                              2, 10, 18, 6, 14, 22,
-                              3, 11, 19, 7, 15, 23 };
+            this->m_strides = {1, 3, 6};
+            this->m_backstrides = {2, 3, 18};
+            this->m_data = {-1, 8, 16, 4, 12, 20,
+                             1, 9, 17, 5, 13, 21,
+                             2, 10, 18, 6, 14, 22,
+                             3, 11, 19, 7, 15, 23};
         }
     };
 
@@ -90,9 +86,9 @@ namespace xt
         {
             this->m_strides = { 8, 1, 2 };
             this->m_backstrides = { 16, 1, 6};
-            this->m_data = { -1, 4, 1, 5, 2, 6, 3, 7,
-                              8, 12, 9, 13, 10, 14, 11, 15,
-                             16, 20, 17, 21, 18, 22, 19, 23 };
+            this->m_data = {-1, 4, 1, 5, 2, 6, 3, 7,
+                             8, 12, 9, 13, 10, 14, 11, 15,
+                            16, 20, 17, 21, 18, 22, 19, 23};
         }
     };
 
@@ -108,18 +104,18 @@ namespace xt
 
         inline unit_shape_result()
         {
-            m_shape = { 3, 1, 4 };
-            m_strides = { 4, 0, 1 };
-            m_backstrides = { 8, 0, 3 };
-            m_data = { -1, 8, 16, 1, 9, 17, 2, 10, 18, 3, 11, 19 };
+            m_shape = {3, 1, 4};
+            m_strides = {4, 0, 1};
+            m_backstrides = {8, 0, 3};
+            m_data = {-1, 8, 16, 1, 9, 17, 2, 10, 18, 3, 11, 19};
             m_assigner.resize(m_shape[0]);
             for (std::size_t i = 0; i < std::size_t(m_shape[0]); ++i)
             {
                 m_assigner[i].resize(m_shape[1]);
             }
-            m_assigner[0][0] = { -1, 1, 2, 3 };
-            m_assigner[1][0] = { 8, 9, 10, 11 };
-            m_assigner[2][0] = { 16, 17, 18, 19 };
+            m_assigner[0][0] = {-1, 1, 2, 3};
+            m_assigner[1][0] = {8, 9, 10, 11};
+            m_assigner[2][0] = {16, 17, 18, 19};
         }
 
         shape_type m_shape;
@@ -146,23 +142,23 @@ namespace xt
     template <class V, class C = std::vector<std::size_t>>
     void test_reshape(V& vec)
     {
-        column_major_result<C> rm;
-        vec.reshape(rm.m_shape);
-        compare_shape(vec, rm);
+        column_major_result<C> cm;
+        vec.reshape(cm.m_shape);
+        compare_shape(vec, cm);
     }
 
     template <class V, class C = std::vector<std::size_t>>
     void test_transpose(V& vec)
     {
-        using inner_shape_type = typename V::inner_shape_type;
         using shape_type = typename V::shape_type;
         using strides_type = typename V::strides_type;
         {
             SCOPED_TRACE("transpose");
-            inner_shape_type shape_new = vec.shape();
-            vec.transpose();
+            shape_type shape_new = xt::make_sequence<shape_type>(vec.dimension(), 0);
+            std::copy(vec.shape().cbegin(), vec.shape().cend(), shape_new.begin());
+            auto vt = transpose(vec);
             std::reverse(shape_new.begin(), shape_new.end());
-            EXPECT_EQ(vec.shape(), shape_new);
+            EXPECT_EQ(vt.shape(), shape_new);
         }
 
         {
@@ -171,30 +167,30 @@ namespace xt
             vec.reshape(rm.shape());
 
             assign_array(vec, rm.m_assigner);
-            EXPECT_TRUE(std::equal(vec.data().begin(), vec.data().end(), rm.m_data.begin()));
+            EXPECT_TRUE(std::equal(vec.data().cbegin(), vec.data().cend(), rm.m_data.cbegin()));
 
             auto vec_copy = vec;
 
             shape_type shape_new(rm.shape());
-            vec.transpose();
+            auto vt = transpose(vec);
             std::reverse(shape_new.begin(), shape_new.end());
-            EXPECT_EQ(vec.shape(), shape_new);
-            EXPECT_TRUE(std::equal(vec.data().cbegin(), vec.data().cend(), rm.m_data.cbegin()));
+            EXPECT_EQ(vt.shape(), shape_new);
+            EXPECT_TRUE(std::equal(vt.data().cbegin(), vt.data().cend(), rm.m_data.cbegin()));
 
             strides_type new_strides = {rm.m_strides[2],
                                         rm.m_strides[1],
                                         rm.m_strides[0]};
-            EXPECT_EQ(vec.strides(), new_strides);
+            EXPECT_EQ(vt.strides(), new_strides);
 
             strides_type new_backstrides = {rm.m_backstrides[2],
                                             rm.m_backstrides[1],
                                             rm.m_backstrides[0]};
-            EXPECT_EQ(vec.backstrides(), new_backstrides);
+            EXPECT_EQ(vt.backstrides(), new_backstrides);
 
-            EXPECT_EQ(vec_copy(0, 0, 0), vec(0, 0, 0));
-            EXPECT_EQ(vec_copy(0, 1, 0), vec(0, 1, 0));
-            EXPECT_EQ(vec_copy(1, 1, 0), vec(0, 1, 1));
-            EXPECT_EQ(vec_copy(1, 1, 2), vec(2, 1, 1));
+            EXPECT_EQ(vec_copy(0, 0, 0), vt(0, 0, 0));
+            EXPECT_EQ(vec_copy(0, 1, 0), vt(0, 1, 0));
+            EXPECT_EQ(vec_copy(1, 1, 0), vt(0, 1, 1));
+            EXPECT_EQ(vec_copy(1, 1, 2), vt(2, 1, 1));
         }
 
         {
@@ -207,30 +203,31 @@ namespace xt
 
             auto vec_copy = vec;
 
-            inner_shape_type a = vec.shape();
-            vec.transpose({1, 0, 2});
+            shape_type a = xt::make_sequence<shape_type>(vec.dimension(), 0);
+            std::copy(vec.shape().cbegin(), vec.shape().cend(), a.begin());
+            auto vt = transpose(vec, {1, 0, 2});
             shape_type shape_new = {a[1], a[0], a[2]};
-            EXPECT_TRUE(std::equal(vec.shape().cbegin(), vec.shape().cend(), shape_new.begin()));
-            EXPECT_TRUE(std::equal(vec.data().cbegin(), vec.data().cend(), rm.m_data.cbegin()));
+            EXPECT_TRUE(std::equal(vt.shape().cbegin(), vt.shape().cend(), shape_new.begin()));
+            EXPECT_TRUE(std::equal(vt.data().cbegin(), vt.data().cend(), rm.m_data.cbegin()));
 
-            strides_type new_strides = {rm.m_strides[1], 
-                                        rm.m_strides[0], 
+            strides_type new_strides = {rm.m_strides[1],
+                                        rm.m_strides[0],
                                         rm.m_strides[2]};
-            EXPECT_EQ(vec.strides(), new_strides);
+            EXPECT_EQ(vt.strides(), new_strides);
 
-            strides_type new_backstrides = {rm.m_backstrides[1], 
-                                            rm.m_backstrides[0], 
+            strides_type new_backstrides = {rm.m_backstrides[1],
+                                            rm.m_backstrides[0],
                                             rm.m_backstrides[2]};
-            EXPECT_EQ(vec.backstrides(), new_backstrides);
+            EXPECT_EQ(vt.backstrides(), new_backstrides);
 
-            EXPECT_EQ(vec_copy(0, 0, 0), vec(0, 0, 0));
-            EXPECT_EQ(vec_copy(0, 1, 0), vec(1, 0, 0));
-            EXPECT_EQ(vec_copy(1, 1, 0), vec(1, 1, 0));
-            EXPECT_EQ(vec_copy(1, 1, 2), vec(1, 1, 2));
+            EXPECT_EQ(vec_copy(0, 0, 0), vt(0, 0, 0));
+            EXPECT_EQ(vec_copy(0, 1, 0), vt(1, 0, 0));
+            EXPECT_EQ(vec_copy(1, 1, 0), vt(1, 1, 0));
+            EXPECT_EQ(vec_copy(1, 1, 2), vt(1, 1, 2));
 
             // Compilation check only
-            std::vector<std::size_t> perm = { 1, 0, 2 };
-            vec.transpose(perm);
+            std::vector<std::size_t> perm = {1, 0, 2};
+            transpose(vec, perm);
         }
 
         {
@@ -238,10 +235,10 @@ namespace xt
             column_major_result<C> rm;
             vec.reshape(rm.shape());
 
-            EXPECT_THROW(vec.transpose({1, 1, 0}, check_policy::full()), transpose_error);
-            EXPECT_THROW(vec.transpose({1, 0, 2, 3}, check_policy::full()), transpose_error);
-            EXPECT_THROW(vec.transpose({1, 2}, check_policy::full()), transpose_error);
-            EXPECT_THROW(vec.transpose({3, 0, 1}, check_policy::full()), transpose_error);
+            EXPECT_THROW(transpose(vec, {1, 1, 0}, check_policy::full()), transpose_error);
+            EXPECT_THROW(transpose(vec, {1, 0, 2, 3}, check_policy::full()), transpose_error);
+            EXPECT_THROW(transpose(vec, {1, 2}, check_policy::full()), transpose_error);
+            EXPECT_THROW(transpose(vec, {3, 0, 1}, check_policy::full()), transpose_error);
         }
     }
 
@@ -264,7 +261,7 @@ namespace xt
     void test_bound_check(V& vec)
     {
 #ifdef XTENSOR_ENABLE_ASSERT
-        EXPECT_ANY_THROW(vec(10,10,10));
+        EXPECT_ANY_THROW(vec(10, 10, 10));
 #else
         (void)vec;
 #endif
@@ -349,7 +346,7 @@ namespace xt
     {
         using shape_type = typename V::shape_type;
 
-        shape_type s = { 3, 1, 4, 2 };
+        shape_type s = {3, 1, 4, 2};
         vec.reshape(s);
 
         {
@@ -362,23 +359,22 @@ namespace xt
 
         {
             SCOPED_TRACE("different shape");
-            shape_type s2 = { 3, 5, 1, 2 };
+            shape_type s2 = {3, 5, 1, 2};
             shape_type s2r = {3, 5, 4, 2};
             bool res = vec.broadcast_shape(s2);
             EXPECT_EQ(s2, s2r);
             EXPECT_FALSE(res);
-
         }
 
         {
             SCOPED_TRACE("incompatible shapes");
-            shape_type s4 = { 2, 1, 3, 2 };
+            shape_type s4 = {2, 1, 3, 2};
             bool wit = false;
             try
             {
                 vec.broadcast_shape(s4);
             }
-            catch(broadcast_error&)
+            catch (broadcast_error&)
             {
                 wit = true;
             }
@@ -391,7 +387,7 @@ namespace xt
     {
         using shape_type = typename V::shape_type;
 
-        shape_type s = { 3, 1, 4, 2 };
+        shape_type s = {3, 1, 4, 2};
         vec.reshape(s);
 
         {
@@ -408,14 +404,13 @@ namespace xt
     void test_iterator(V& vec)
     {
         {
-            SCOPED_TRACE("row_major storage iterator");
-            column_major_result<C> rm;
-            vec.reshape(rm.m_shape);
-            std::copy(rm.data().cbegin(), rm.data().cend(), vec.begin());
-            EXPECT_TRUE(std::equal(rm.data().cbegin(), rm.data().cend(), vec.data().cbegin()));
+            SCOPED_TRACE("column_major storage iterator");
+            column_major_result<C> cm;
+            vec.reshape(cm.m_shape);
+            std::copy(cm.data().cbegin(), cm.data().cend(), vec.template begin<layout_type::column_major>());
+            EXPECT_TRUE(std::equal(cm.data().cbegin(), cm.data().cend(), vec.data().cbegin()));
         }
     }
 }
 
 #endif
-
