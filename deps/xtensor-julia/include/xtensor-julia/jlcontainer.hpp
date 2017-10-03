@@ -16,6 +16,8 @@
 
 #include "xtensor/xcontainer.hpp"
 
+#include "xtl/xsequence.hpp"
+
 namespace xt
 {
 
