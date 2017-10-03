@@ -148,7 +148,7 @@ namespace xt
     inline jltensor<T, N>::jltensor()
         : base_type()
     {
-        m_shape = make_sequence<shape_type>(N, size_type(1));
+        m_shape = xtl::make_sequence<shape_type>(N, size_type(1));
         xt::compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
         m_data[0] = T();
@@ -243,7 +243,7 @@ namespace xt
     inline jltensor<T, N>::jltensor(const xexpression<E>& e)
         : base_type()
     {
-        m_shape = forward_sequence<shape_type>(e.derived_cast().shape());
+        m_shape = xtl::forward_sequence<shape_type>(e.derived_cast().shape());
         xt::compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
         init_tensor(m_shape);
         semantic_base::assign(e);

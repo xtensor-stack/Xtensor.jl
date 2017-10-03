@@ -1,6 +1,7 @@
 *.jl.cov
 *.jl.*.cov
 *.jl.mem
+*.swp
 /deps/builds
 /deps/xtensor-julia/build
 /deps/xtensor-julia/docs/build

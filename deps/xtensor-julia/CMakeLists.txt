@@ -27,6 +27,16 @@ set(${PROJECT_NAME}_VERSION
     ${XTENSOR_JULIA_VERSION_MAJOR}.${XTENSOR_JULIA_VERSION_MINOR}.${XTENSOR_JULIA_VERSION_PATCH})
 message(STATUS "xtensor-julia v${${PROJECT_NAME}_VERSION}")
 
+# Dependencies
+# ============
+
+find_package(xtl REQUIRED)
+message(STATUS "Found xtl: ${xtl_INCLUDE_DIRS}/xtl")
+find_package(xtensor REQUIRED)
+message(STATUS "Found xtensor: ${xtensor_INCLUDE_DIRS}/xtensor")
+find_package(JlCxx REQUIRED)
+message(STATUS "Found JlCxx: ${JlCxx_INCLUDE_DIRS}")
+
 # Build
 # =====
 
@@ -47,9 +57,8 @@ endif()
 
 if(BUILD_TESTS)
     include_directories(${XTENSOR_JULIA_INCLUDE_DIR})
-    find_package(xtensor REQUIRED)
+    include_directories(${xtl_INCLUDE_DIRS})
     include_directories(${xtensor_INCLUDE_DIRS})
-    find_package(JlCxx REQUIRED)
     include_directories(${JlCxx_INCLUDE_DIRS})
     add_subdirectory(test)
 endif()
