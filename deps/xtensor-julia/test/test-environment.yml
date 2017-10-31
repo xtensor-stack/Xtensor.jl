@@ -1,7 +1,0 @@
-name: test-xtensor-julia
-channels:
-    - conda-forge
-    - defaults
-dependencies:
-    - cmake
-    - gtest

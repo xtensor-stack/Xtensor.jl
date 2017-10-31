@@ -60,7 +60,8 @@ namespace xt
         static constexpr layout_type static_layout = layout_type::column_major;
         static constexpr bool contiguous_layout = false;
 
-        void reshape(const shape_type& shape);
+        template <class S = shape_type>
+        void reshape(S&& shape);
 
         layout_type layout() const;
 
@@ -104,11 +105,12 @@ namespace xt
      * @param shape the new shape
      */
     template <class D>
-    inline void jlcontainer<D>::reshape(const shape_type& shape)
+    template <class S>
+    inline void jlcontainer<D>::reshape(S&& shape)
     {
-        if (shape.size() != this->dimension() || !std::equal(shape.cbegin(), shape.cend(), this->shape().cbegin()))
+        if (shape.size() != this->dimension() || !std::equal(std::begin(shape), std::end(shape), this->shape().cbegin()))
         {
-            derived_type tmp(shape);
+            derived_type tmp(std::forward<S>(shape));
             *static_cast<derived_type*>(this) = std::move(tmp);
         }
     }

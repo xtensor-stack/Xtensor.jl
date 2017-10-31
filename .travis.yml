@@ -20,7 +20,7 @@ matrix:
           packages:
             - g++-5
       env: COMPILER=gcc GCC=5
-      julia: 0.6
+      julia: 0.6.0
     - os: linux
       addons:
         apt:
@@ -88,17 +88,14 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.12.0 -c conda-forge
-    - cd deps/xtensor-julia/test
-    - conda env create -f ./test-environment.yml
-    - source activate test-xtensor-julia
-    - cd ..
+    - conda install xtensor==0.12.0 cmake -c conda-forge
+    - cd deps/xtensor-julia
     # Install CxxWrap
     - julia -E "Pkg.add(\"CxxWrap\")"
     # Build pure Cpp tests
     - JlCxx_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"share\", \"cmake\", \"JlCxx\")")
     - JlCxx_DIR=${JlCxx_DIR//\"/}
-    - cmake -D BUILD_TESTS=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
+    - cmake -D DOWNLOAD_GTEST=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
     - make -j2 test_xtensor_julia
     # Build Julia Package
     - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
