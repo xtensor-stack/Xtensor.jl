@@ -108,7 +108,7 @@ namespace xt
     template <class S>
     inline void jlcontainer<D>::reshape(S&& shape)
     {
-        if (shape.size() != this->dimension() || !std::equal(std::cbegin(shape), std::cend(shape), this->shape().cbegin()))
+        if (shape.size() != this->dimension() || !std::equal(std::begin(shape), std::end(shape), this->shape().cbegin()))
         {
             derived_type tmp(std::forward<S>(shape));
             *static_cast<derived_type*>(this) = std::move(tmp);
