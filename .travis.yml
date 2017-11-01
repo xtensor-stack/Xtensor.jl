@@ -29,6 +29,15 @@ matrix:
           packages:
             - g++-5
       env: COMPILER=gcc GCC=5
+      julia: 0.6.1
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env: COMPILER=gcc GCC=5
       julia: nightly
     - os: linux
       addons:
