@@ -43,10 +43,10 @@ for l in example_labels
 end
 
 # Version of xtl to vendor
-xtl_version = "0.2.8"
+xtl_version = "0.3.3"
 
 # Version of xtensor-core to vendor
-xtensor_version = "0.12.0"
+xtensor_version = "0.13.0"
 
 xtl_steps = @build_steps begin
   `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`
