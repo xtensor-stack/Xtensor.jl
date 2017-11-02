@@ -88,7 +88,7 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.12.0 cmake -c conda-forge
+    - conda install xtensor==0.13.0 cmake -c conda-forge
     - cd deps/xtensor-julia
     # Install CxxWrap
     - julia -E "Pkg.add(\"CxxWrap\")"

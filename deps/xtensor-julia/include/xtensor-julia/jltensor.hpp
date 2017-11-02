@@ -41,7 +41,7 @@ namespace xt
     template <class T, std::size_t N>
     struct xcontainer_inner_types<jltensor<T, N>>
     {
-        using container_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>>;
+        using container_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>*>;
         using shape_type = std::array<std::size_t, N>;
         using strides_type = shape_type;
         using backstrides_type = shape_type;
@@ -55,7 +55,7 @@ namespace xt
     template <class T, std::size_t N>
     struct xcontainer_inner_types<jltensor<std::complex<T>, N>>
     {
-        using container_type = xbuffer_adaptor<std::complex<T>>;
+        using container_type = xbuffer_adaptor<std::complex<T>*>;
         using shape_type = std::array<std::size_t, N>;
         using strides_type = shape_type;
         using backstrides_type = shape_type;
