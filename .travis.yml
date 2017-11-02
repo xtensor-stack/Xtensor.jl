@@ -28,7 +28,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
-      env: COMPILER=gcc GCC=5
+      env: COMPILER=gcc GCC=5 JULIA=0.6.1
       julia: 0.6.1
     - os: linux
       addons:
@@ -101,14 +101,20 @@ install:
     - cd deps/xtensor-julia
     # Install CxxWrap
     - julia -E "Pkg.add(\"CxxWrap\")"
-    # Build pure Cpp tests
-    - JlCxx_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"share\", \"cmake\", \"JlCxx\")")
-    - JlCxx_DIR=${JlCxx_DIR//\"/}
-    - cmake -D DOWNLOAD_GTEST=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
-    - make -j2 test_xtensor_julia
+    # Build pure Cpp tests, butnot on 0.6.1
+    - |
+      if [[ "$JULIA" != "0.6.1" ]]; then
+        JlCxx_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"share\", \"cmake\", \"JlCxx\")")
+        JlCxx_DIR=${JlCxx_DIR//\"/}
+        cmake -D DOWNLOAD_GTEST=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
+        make -j2 test_xtensor_julia
+      fi
     # Build Julia Package
     - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
 
 script:
-    - make xtest
+    - |
+      if [[ "$JULIA" != "0.6.1" ]]; then
+        make xtest
+      fi
 
