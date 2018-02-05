@@ -131,6 +131,7 @@ namespace xt
         const container_type& data_impl() const noexcept;
 
         friend class xcontainer<jltensor<T, N>>;
+        friend class jlcontainer<jltensor<T, N>>;
     };
 
     /***************************
@@ -161,7 +162,7 @@ namespace xt
     inline jltensor<T, N>::jltensor(nested_initializer_list_t<T, N> t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 

@@ -136,6 +136,7 @@ namespace xt
         const container_type& data_impl() const noexcept;
 
         friend class xcontainer<jlarray<T>>;
+        friend class jlcontainer<jlarray<T>>;
     };
 
     /**************************
@@ -168,7 +169,7 @@ namespace xt
     inline jlarray<T>::jlarray(const value_type& t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 
@@ -176,7 +177,7 @@ namespace xt
     inline jlarray<T>::jlarray(nested_initializer_list_t<T, 1> t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 
@@ -184,7 +185,7 @@ namespace xt
     inline jlarray<T>::jlarray(nested_initializer_list_t<T, 2> t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 
@@ -192,7 +193,7 @@ namespace xt
     inline jlarray<T>::jlarray(nested_initializer_list_t<T, 3> t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 
@@ -200,7 +201,7 @@ namespace xt
     inline jlarray<T>::jlarray(nested_initializer_list_t<T, 4> t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 
@@ -208,7 +209,7 @@ namespace xt
     inline jlarray<T>::jlarray(nested_initializer_list_t<T, 5> t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 
