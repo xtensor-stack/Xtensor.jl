@@ -268,7 +268,7 @@ namespace xt
         jl_datatype_t* tuple_type;
         jl_value_t* dims;
 
-        JL_GC_PUSH3(array_type, tuple_type, dims);
+        JL_GC_PUSH3(&array_type, &tuple_type, &dims);
 
         array_type = make_julia_array_type<value_type>(N);
         tuple_type = make_julia_shape_type(N);
