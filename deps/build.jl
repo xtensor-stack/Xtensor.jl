@@ -43,25 +43,21 @@ for l in example_labels
 end
 
 # Version of xtl to vendor
-xtl_version = "0.3.7"
+xtl_version = "0.4.0"
 
 # Version of xtensor-core to vendor
 xtensor_version = "0.15.1"
 
-if !isdir(xtl_srcdir)
-  xtl_steps = @build_steps begin
-    `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`
-    `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF -DCMAKE_INSTALL_LIBDIR=lib $xtl_srcdir`
-    `cmake --build . --config $build_type --target install`
-  end
+xtl_steps = @build_steps begin
+  `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`
+  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF -DCMAKE_INSTALL_LIBDIR=lib $xtl_srcdir`
+  `cmake --build . --config $build_type --target install`
 end
 
-if !isdir(xtensor_core_srcdir)
-  xtensor_core_steps = @build_steps begin
-    `git clone -b $xtensor_version --single-branch https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
-    `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF -DCMAKE_INSTALL_LIBDIR=lib $xtensor_core_srcdir`
-    `cmake --build . --config $build_type --target install`
-  end
+xtensor_core_steps = @build_steps begin
+  `git clone -b $xtensor_version --single-branch https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
+  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF -DCMAKE_INSTALL_LIBDIR=lib $xtensor_core_srcdir`
+  `cmake --build . --config $build_type --target install`
 end
 
 xtensor_julia_steps = @build_steps begin
@@ -78,21 +74,17 @@ provides(BuildProcess,
   (@build_steps begin
 
     println("Building xtl")
-    if !isdir(xtl_srcdir)
-      CreateDirectory(xtl_builddir)
-      @build_steps begin
-        ChangeDirectory(xtl_builddir)
-        xtl_steps
-      end
+    CreateDirectory(xtl_builddir)
+    @build_steps begin
+      ChangeDirectory(xtl_builddir)
+      xtl_steps
     end
 
-    if !isdir(xtensor_core_srcdir)
-      println("Building xtensor-core")
-      CreateDirectory(xtensor_core_builddir)
-      @build_steps begin
-        ChangeDirectory(xtensor_core_builddir)
-        xtensor_core_steps
-      end
+    println("Building xtensor-core")
+    CreateDirectory(xtensor_core_builddir)
+    @build_steps begin
+      ChangeDirectory(xtensor_core_builddir)
+      xtensor_core_steps
     end
 
     println("Building xtensor-julia")
