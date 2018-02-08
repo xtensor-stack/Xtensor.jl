@@ -320,11 +320,17 @@ namespace xt
     template <class T>
     inline void jlarray<T>::init_array(const shape_type& shape)
     {
-        jl_value_t* array_type = make_julia_array_type<value_type>(shape.size());
-        jl_datatype_t* tuple_type = make_julia_shape_type(shape.size());
+        jl_value_t* array_type;
+        jl_datatype_t* tuple_type;
+        jl_value_t* dims;
+
+        JL_GC_PUSH3(array_type, tuple_type, dims);
+
+        array_type = make_julia_array_type<value_type>(shape.size());
+        tuple_type = make_julia_shape_type(shape.size());
 
         // allocate array
-        jl_value_t* dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
+        dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
         this->p_array = jl_new_array((jl_value_t*)array_type, dims);
 
         // setup buffer adaptor
@@ -332,6 +338,8 @@ namespace xt
                                 static_cast<size_type>(jl_array_len(this->p_array)));
 
         m_shape = inner_shape_type(&(this->p_array->nrows), this->p_array->flags.ndims);
+
+        JL_GC_POP();
     }
 
     template <class T>
