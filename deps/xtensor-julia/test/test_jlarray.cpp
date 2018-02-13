@@ -162,5 +162,4 @@ namespace xt
         jlarray<int> a;
         EXPECT_EQ(0, a());
     }
-
 }

@@ -129,11 +129,21 @@ namespace xt
         {
             throw std::runtime_error("resize sizes do not match up.");
         }
-        jl_value_t* array_type = make_julia_array_type<value_type>(shape.size());
-        jl_datatype_t* tuple_type = make_julia_shape_type(shape.size());
-        jl_value_t* dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
+
+        jl_value_t* array_type;
+        jl_value_t* dims;
+        jl_datatype_t* tuple_type;
+
+        JL_GC_PUSH3(&array_type, &tuple_type, &dims);
+
+        array_type = make_julia_array_type<value_type>(shape.size());
+        tuple_type = make_julia_shape_type(shape.size());
+        dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
+
         this->p_array = jl_reshape_array((jl_value_t*) array_type, wrapped(), dims);
         this->derived_cast().init_from_julia();
+
+        JL_GC_POP();
     }
 
     /**
