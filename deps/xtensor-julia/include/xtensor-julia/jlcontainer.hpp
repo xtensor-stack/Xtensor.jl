@@ -61,6 +61,9 @@ namespace xt
         static constexpr bool contiguous_layout = false;
 
         template <class S = shape_type>
+        void resize(S&& shape, bool force = false);
+
+        template <class S = shape_type>
         void reshape(S&& shape);
 
         layout_type layout() const;
@@ -84,6 +87,9 @@ namespace xt
         jlcontainer& operator=(jlcontainer&&) = default;
         jlcontainer(jl_array_t*) noexcept;
 
+        derived_type& derived_cast();
+        const derived_type& derived_cast() const;
+
         jl_array_t* p_array;
     };
 
@@ -101,18 +107,43 @@ namespace xt
      ******************************/
 
     /**
-     * Reshapes the container.
+     * resizes the container.
      * @param shape the new shape
      */
     template <class D>
     template <class S>
-    inline void jlcontainer<D>::reshape(S&& shape)
+    inline void jlcontainer<D>::resize(S&& shape, bool force)
     {
-        if (shape.size() != this->dimension() || !std::equal(std::begin(shape), std::end(shape), this->shape().cbegin()))
+        if (force || shape.size() != this->dimension() || !std::equal(std::begin(shape), std::end(shape), this->shape().cbegin()))
         {
             derived_type tmp(std::forward<S>(shape));
             *static_cast<derived_type*>(this) = std::move(tmp);
         }
+    }
+
+    template <class D>
+    template <class S>
+    inline void jlcontainer<D>::reshape(S&& shape)
+    {
+        if (xt::compute_size(shape) != this->size())
+        {
+            throw std::runtime_error("resize sizes do not match up.");
+        }
+
+        jl_value_t* array_type;
+        jl_value_t* dims;
+        jl_datatype_t* tuple_type;
+
+        JL_GC_PUSH3(&array_type, &tuple_type, &dims);
+
+        array_type = make_julia_array_type<value_type>(shape.size());
+        tuple_type = make_julia_shape_type(shape.size());
+        dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
+
+        this->p_array = jl_reshape_array((jl_value_t*) array_type, wrapped(), dims);
+        this->derived_cast().init_from_julia();
+
+        JL_GC_POP();
     }
 
     /**
@@ -142,6 +173,18 @@ namespace xt
     inline auto jlcontainer<D>::layout() const -> layout_type
     {
         return layout_type::column_major;
+    }
+
+    template <class D>
+    inline auto jlcontainer<D>::derived_cast() -> derived_type&
+    {
+        return *static_cast<derived_type*>(this);
+    }
+
+    template <class D>
+    inline auto jlcontainer<D>::derived_cast() const -> const derived_type&
+    {
+        return *static_cast<const derived_type*>(this);
     }
 
     /**

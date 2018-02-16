@@ -131,6 +131,7 @@ namespace xt
         const container_type& data_impl() const noexcept;
 
         friend class xcontainer<jltensor<T, N>>;
+        friend class jlcontainer<jltensor<T, N>>;
     };
 
     /***************************
@@ -161,7 +162,7 @@ namespace xt
     inline jltensor<T, N>::jltensor(nested_initializer_list_t<T, N> t)
         : base_type()
     {
-        base_type::reshape(xt::shape<shape_type>(t));
+        base_type::resize(xt::shape<shape_type>(t), true);
         nested_copy(this->begin(), t);
     }
 
@@ -263,16 +264,23 @@ namespace xt
     template <class T, std::size_t N>
     inline void jltensor<T, N>::init_tensor(const shape_type& shape)
     {
-        static jl_value_t* array_type = make_julia_array_type<value_type>(N);
-        static jl_datatype_t* tuple_type = make_julia_shape_type(N);
+        jl_value_t* array_type;
+        jl_datatype_t* tuple_type;
+        jl_value_t* dims;
+
+        JL_GC_PUSH3(&array_type, &tuple_type, &dims);
+
+        array_type = make_julia_array_type<value_type>(N);
+        tuple_type = make_julia_shape_type(N);
 
         // allocate array
-        jl_value_t* dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
+        dims = jl_new_bits((jl_value_t*)tuple_type, const_cast<void*>(reinterpret_cast<const void*>(shape.data())));
         this->p_array = jl_new_array((jl_value_t*)array_type, dims);
 
         // setup buffer adaptor
         m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),
                                 static_cast<size_type>(jl_array_len(this->p_array)));
+        JL_GC_POP();
     }
 
     template <class T, std::size_t N>

@@ -116,10 +116,21 @@ namespace xt
         EXPECT_EQ(c(1, 1), a1(1, 1) + a2(1, 1));
     }
 
-    TEST(jlarray, reshape)
+    TEST(jlarray, resize)
     {
         jlarray<int> a;
-        test_reshape<jlarray<int>, container_type>(a);
+        test_resize<jlarray<int>, container_type>(a);
+    }
+
+    TEST(jlarray, reshape)
+    {
+        jlarray<int> a = {{1,2,3}, {4,5,6}};
+        auto new_shape = std::vector<std::size_t>({1, 6});
+        a.reshape(new_shape);
+        auto orig_ptr = a.raw_data();
+        EXPECT_TRUE(std::equal(a.shape().begin(), a.shape().end(), new_shape.begin()));
+        EXPECT_EQ(orig_ptr, a.raw_data());
+        EXPECT_THROW(a.reshape({10, 10}), std::runtime_error);
     }
 
     TEST(jlarray, access)
@@ -151,5 +162,4 @@ namespace xt
         jlarray<int> a;
         EXPECT_EQ(0, a());
     }
-
 }

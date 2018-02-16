@@ -116,10 +116,22 @@ namespace xt
         EXPECT_EQ(c(1, 1), a1(1, 1) + a2(1, 1));
     }
 
-    TEST(jltensor, reshape)
+    TEST(jltensor, resize)
     {
         jltensor<int, 3> a;
-        test_reshape<jltensor<int, 3>, container_type>(a);
+        test_resize<jltensor<int, 3>, container_type>(a);
+    }
+
+    TEST(jltensor, reshape)
+    {
+        jltensor<int, 2> a = {{1,2,3}, {4,5,6}};
+        auto new_shape = std::vector<std::size_t>({1, 6});
+        a.reshape(new_shape);
+        auto orig_ptr = a.raw_data();
+        EXPECT_TRUE(std::equal(a.shape().begin(), a.shape().end(), new_shape.begin()));
+        EXPECT_EQ(orig_ptr, a.raw_data());
+        EXPECT_THROW(a.reshape({10, 10}), std::runtime_error);
+        EXPECT_THROW(a.reshape(std::vector<std::size_t>({1, 1, 6})), std::runtime_error);
     }
 
     TEST(jltensor, access)
