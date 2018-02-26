@@ -46,7 +46,7 @@ end
 xtl_version = "0.4.0"
 
 # Version of xtensor-core to vendor
-xtensor_version = "0.15.1"
+xtensor_version = "0.15.4"
 
 xtl_steps = @build_steps begin
   `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`
@@ -61,12 +61,12 @@ xtensor_core_steps = @build_steps begin
 end
 
 xtensor_julia_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DJlCxx_DIR=$jlcxx_dir -Dxtensor_DIR=$xtensor_dir -DCMAKE_INSTALL_LIBDIR=lib $xtensor_julia_srcdir`
+  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DJlCxx_DIR=$jlcxx_dir -Dxtensor_DIR=$xtensor_dir -DCMAKE_PROGRAM_PATH=$JULIA_HOME -DCMAKE_INSTALL_LIBDIR=lib $xtensor_julia_srcdir`
   `cmake --build . --config $build_type --target install`
 end
 
 xtensor_examples_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DJlCxx_DIR=$jlcxx_dir -Dxtensor_DIR=$xtensor_dir -DCMAKE_INSTALL_LIBDIR=lib $xtensor_examples_srcdir`
+  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DJlCxx_DIR=$jlcxx_dir -Dxtensor_DIR=$xtensor_dir -DCMAKE_PROGRAM_PATH=$JULIA_HOME -DCMAKE_INSTALL_LIBDIR=lib $xtensor_examples_srcdir`
   `cmake --build . --config $build_type --target install`
 end
 
