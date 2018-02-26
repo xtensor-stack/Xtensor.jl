@@ -11,7 +11,7 @@ matrix:
           packages:
             - g++-4.9
       env: COMPILER=gcc GCC=4.9
-      julia: 0.5
+      julia: 0.6.0
     - os: linux
       addons:
         apt:
@@ -36,31 +36,26 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
+            - g++-6
+      env: COMPILER=gcc GCC=6 JULIA=0.6.1
+      julia: 0.6.1
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
             - g++-5
       env: COMPILER=gcc GCC=5
       julia: nightly
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: COMPILER=gcc GCC=5
-      julia: 0.5
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env: COMPILER=gcc GCC=6
-      julia: 0.5
     - os: osx
       osx_image: xcode8
       compiler: clang
       julia: 0.5
+    - os: osx
+      osx_image: xcode8
+      compiler: clang
+      julia: 0.6.1
   allow_failures:
     - julia: nightly
 env:
