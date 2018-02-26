@@ -51,7 +51,7 @@ matrix:
     - os: osx
       osx_image: xcode8
       compiler: clang
-      julia: 0.5
+      julia: 0.6.0
     - os: osx
       osx_image: xcode8
       compiler: clang
