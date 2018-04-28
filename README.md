@@ -10,7 +10,7 @@ Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ mult
  - `xtensor` is a C++ library for multi-dimensional arrays enabling numpy-style broadcasting and lazy computing.
  - `xtensor-julia` enables inplace use of julia arrays in C++ with all the benefits from `xtensor`
 
-     - C++ universal function and broadcasting 
+     - C++ universal function and broadcasting
      - STL - compliant APIs.
      - A broad coverage of numpy APIs (see [the numpy to xtensor cheat sheet](http://xtensor.readthedocs.io/en/latest/numpy.html)).
 
@@ -22,6 +22,12 @@ The Julia bindings for `xtensor` are based on the [CxxWrap.jl](https://github.co
 Pkg.clone("https://github.com/QuantStack/Xtensor.jl", "Xtensor");
 Pkg.build("Xtensor")
 ```
+
+## Documentation
+
+To get started with using `xtensor-julia`, check out the full documentation
+
+http://xtensor-julia.readthedocs.io/
 
 ## Usage
 
