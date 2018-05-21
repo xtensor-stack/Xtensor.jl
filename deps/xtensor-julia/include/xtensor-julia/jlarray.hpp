@@ -41,7 +41,7 @@ namespace xt
     template <class T>
     struct xcontainer_inner_types<jlarray<T>>
     {
-        using container_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>*>;
+        using storage_type = xbuffer_adaptor<jlcxx::mapped_julia_type<T>*>;
         using shape_type = std::vector<std::size_t>;
         using strides_type = shape_type;
         using backstrides_type = shape_type;
@@ -55,7 +55,7 @@ namespace xt
     template <class T>
     struct xcontainer_inner_types<jlarray<std::complex<T>>>
     {
-        using container_type = xbuffer_adaptor<std::complex<T>*>;
+        using storage_type = xbuffer_adaptor<std::complex<T>*>;
         using shape_type = std::vector<std::size_t>;
         using strides_type = shape_type;
         using backstrides_type = shape_type;
@@ -75,7 +75,7 @@ namespace xt
         using self_type = jlarray<T>;
         using semantic_base = xcontainer_semantic<self_type>;
         using base_type = jlcontainer<self_type>;
-        using container_type = typename base_type::container_type;
+        using storage_type = typename base_type::storage_type;
         using value_type = typename base_type::value_type;
         using reference = typename base_type::reference;
         using const_reference = typename base_type::const_reference;
@@ -120,7 +120,7 @@ namespace xt
         inner_shape_type m_shape;
         inner_strides_type m_strides;
         inner_backstrides_type m_backstrides;
-        container_type m_data;
+        storage_type m_data;
 
         void init_array(const shape_type& shape);
         void init_from_julia();
@@ -132,8 +132,8 @@ namespace xt
         inner_backstrides_type& backstrides_impl() noexcept;
         const inner_backstrides_type& backstrides_impl() const noexcept;
 
-        container_type& data_impl() noexcept;
-        const container_type& data_impl() const noexcept;
+        storage_type& storage_impl() noexcept;
+        const storage_type& storage_impl() const noexcept;
 
         friend class xcontainer<jlarray<T>>;
         friend class jlcontainer<jlarray<T>>;
@@ -270,7 +270,7 @@ namespace xt
         // TODO: prevent intermediary shape_type
         shape_type shape = xtl::forward_sequence<shape_type>(rhs.shape());
         init_array(shape);
-        std::copy(rhs.data().cbegin(), rhs.data().cend(), this->data().begin());
+        std::copy(rhs.storage().cbegin(), rhs.storage().cend(), this->storage().begin());
     }
 
     /**
@@ -334,8 +334,8 @@ namespace xt
         this->p_array = jl_new_array((jl_value_t*)array_type, dims);
 
         // setup buffer adaptor
-        m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),
-                                static_cast<size_type>(jl_array_len(this->p_array)));
+        m_data = storage_type(reinterpret_cast<pointer>(this->p_array->data),
+                              static_cast<size_type>(jl_array_len(this->p_array)));
 
         m_shape = inner_shape_type(&(this->p_array->nrows), this->p_array->flags.ndims);
 
@@ -347,8 +347,8 @@ namespace xt
     {
         m_strides = xtl::make_sequence<inner_strides_type>(this->p_array->flags.ndims, 0);
         m_backstrides = xtl::make_sequence<inner_backstrides_type>(this->p_array->flags.ndims, 0);
-        m_data = container_type(reinterpret_cast<pointer>(this->p_array->data),
-                                static_cast<size_type>(jl_array_len(this->p_array)));
+        m_data = storage_type(reinterpret_cast<pointer>(this->p_array->data),
+                              static_cast<size_type>(jl_array_len(this->p_array)));
         m_shape = inner_shape_type(&(this->p_array->nrows), this->p_array->flags.ndims);
         xt::compute_strides(m_shape, layout_type::column_major, m_strides, m_backstrides);
     }
@@ -390,13 +390,13 @@ namespace xt
     }
 
     template <class T>
-    inline auto jlarray<T>::data_impl() noexcept -> container_type&
+    inline auto jlarray<T>::storage_impl() noexcept -> storage_type&
     {
         return m_data;
     }
 
     template <class T>
-    inline auto jlarray<T>::data_impl() const noexcept -> const container_type&
+    inline auto jlarray<T>::storage_impl() const noexcept -> const storage_type&
     {
         return m_data;
     }

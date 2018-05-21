@@ -106,6 +106,7 @@ set(XTENSOR_JULIA_TESTS
 
 set(XTENSOR_JULIA_TARGET test_xtensor_julia)
 
+add_definitions(-DNOMINMAX)
 add_executable(${XTENSOR_JULIA_TARGET} ${XTENSOR_JULIA_TESTS} ${XTENSOR_JULIA_HEADERS} ${XTENSOR_HEADERS})
 
 if(DOWNLOAD_GTEST OR GTEST_SRC_DIR)
@@ -118,5 +119,3 @@ if(UNIX)
 else()
     add_custom_target(xtest COMMAND set JULIA_HOME=${JULIA_HOME} && .\\test_xtensor_julia DEPENDS ${XTENSOR_JULIA_TARGET})
 endif()
-
-
