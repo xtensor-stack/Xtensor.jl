@@ -48,7 +48,7 @@ namespace xt
         jlarray<int> ca(cm.m_shape, value);
         compare_shape(ca, cm);
         std::vector<int> vec(ca.size(), value);
-        EXPECT_TRUE(std::equal(vec.cbegin(), vec.cend(), ca.data().cbegin()));
+        EXPECT_TRUE(std::equal(vec.cbegin(), vec.cend(), ca.storage().cbegin()));
     }
 
     TEST(jlarray, copy_semantic)
@@ -61,21 +61,21 @@ namespace xt
             SCOPED_TRACE("copy constructor");
             jlarray<int> b(a);
             compare_shape(a, b);
-            EXPECT_EQ(a.data(), b.data());
-            a.data()[0] += 1;
-            EXPECT_NE(a.data()[0], b.data()[0]);
+            EXPECT_EQ(a.storage(), b.storage());
+            a.storage()[0] += 1;
+            EXPECT_NE(a.storage()[0], b.storage()[0]);
         }
 
         {
             SCOPED_TRACE("assignment operator");
             column_major_result<container_type> r;
             jlarray<int> c(r.m_shape, 0);
-            EXPECT_NE(a.data(), c.data());
+            EXPECT_NE(a.storage(), c.storage());
             c = a;
             compare_shape(a, c);
-            EXPECT_EQ(a.data(), c.data());
-            a.data()[0] += 1;
-            EXPECT_NE(a.data()[0], c.data()[0]);
+            EXPECT_EQ(a.storage(), c.storage());
+            a.storage()[0] += 1;
+            EXPECT_NE(a.storage()[0], c.storage()[0]);
         }
     }
 
@@ -90,18 +90,18 @@ namespace xt
             jlarray<int> tmp(a);
             jlarray<int> b(std::move(tmp));
             compare_shape(a, b);
-            EXPECT_EQ(a.data(), b.data());
+            EXPECT_EQ(a.storage(), b.storage());
         }
 
         {
             SCOPED_TRACE("move assignment");
             column_major_result<container_type> r;
             jlarray<int> c(r.m_shape, 0);
-            EXPECT_NE(a.data(), c.data());
+            EXPECT_NE(a.storage(), c.storage());
             jlarray<int> tmp(a);
             c = std::move(tmp);
             compare_shape(a, c);
-            EXPECT_EQ(a.data(), c.data());
+            EXPECT_EQ(a.storage(), c.storage());
         }
     }
 
@@ -127,9 +127,9 @@ namespace xt
         jlarray<int> a = {{1,2,3}, {4,5,6}};
         auto new_shape = std::vector<std::size_t>({1, 6});
         a.reshape(new_shape);
-        auto orig_ptr = a.raw_data();
+        auto orig_ptr = a.data();
         EXPECT_TRUE(std::equal(a.shape().begin(), a.shape().end(), new_shape.begin()));
-        EXPECT_EQ(orig_ptr, a.raw_data());
+        EXPECT_EQ(orig_ptr, a.data());
         EXPECT_THROW(a.reshape({10, 10}), std::runtime_error);
     }
 

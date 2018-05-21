@@ -23,16 +23,16 @@ foreach(ver ${xtensor_julia_version_defines})
         set(XTENSOR_JULIA_VERSION_${CMAKE_MATCH_1} "${CMAKE_MATCH_2}" CACHE INTERNAL "")
     endif()
 endforeach()
-set(${PROJECT_NAME}_VERSION 
+set(${PROJECT_NAME}_VERSION
     ${XTENSOR_JULIA_VERSION_MAJOR}.${XTENSOR_JULIA_VERSION_MINOR}.${XTENSOR_JULIA_VERSION_PATCH})
 message(STATUS "xtensor-julia v${${PROJECT_NAME}_VERSION}")
 
 # Dependencies
 # ============
 
-find_package(xtl REQUIRED)
+find_package(xtl 0.4.9 REQUIRED)
 message(STATUS "Found xtl: ${xtl_INCLUDE_DIRS}/xtl")
-find_package(xtensor REQUIRED)
+find_package(xtensor 0.16.0 REQUIRED)
 message(STATUS "Found xtensor: ${xtensor_INCLUDE_DIRS}/xtensor")
 find_package(JlCxx REQUIRED)
 message(STATUS "Found JlCxx: ${JlCxx_INCLUDE_DIRS}")

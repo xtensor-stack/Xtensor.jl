@@ -2,9 +2,21 @@ project(Examples)
 
 cmake_minimum_required(VERSION 3.1)
 
+include(CheckCXXCompilerFlag)
+
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
-list(APPEND CMAKE_CXX_FLAGS "-std=c++14 -march=native")
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Intel")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
+    CHECK_CXX_COMPILER_FLAG("-std=c++14" HAS_CPP14_FLAG)
+
+    if (HAS_CPP14_FLAG)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+    else()
+        message(FATAL_ERROR "Unsupported compiler -- xtensor requires C++14 support!")
+    endif()
+endif()
+
 add_definitions(-DJULIA_ENABLE_THREADING)
 add_definitions(-DNOMINMAX)
 

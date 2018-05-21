@@ -92,10 +92,11 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.15.4 cmake -c conda-forge
+    - conda install xtensor==0.16.0 cmake -c conda-forge
     - cd deps/xtensor-julia
     # Install CxxWrap
-    - julia -E "Pkg.add(\"CxxWrap\")"
+    - julia -E "Pkg.add(\"CxxWrap\", v\"0.5.0\", v\"0.6.0\")"
+    - julia -E "Pkg.status()"
     # Build pure Cpp tests, butnot on 0.6.1
     - |
       if [[ "$JULIA" != "0.6.1" ]]; then
