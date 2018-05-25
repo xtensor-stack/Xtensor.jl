@@ -46,7 +46,7 @@ end
 xtl_version = "0.4.9"
 
 # Version of xtensor-core to vendor
-xtensor_version = "0.16.0"
+xtensor_version = "0.16.1"
 
 xtl_steps = @build_steps begin
   `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`
