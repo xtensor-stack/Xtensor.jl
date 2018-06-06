@@ -1,4 +1,4 @@
-# ![xtensor-julia](http://quantstack.net/assets/images/xtensor-julia.svg)
+# ![xtensor-julia](deps/xtensor-julia/docs/source/xtensor-julia.svg)
 
 [![Travis](https://travis-ci.org/QuantStack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/QuantStack/Xtensor.jl)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/jpvvk2m35d1q8woq?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-julia)
