@@ -4,9 +4,9 @@ using CxxWrap
 @BinDeps.setup
 
 build_type = "Release"
-jlcxx_dir = Pkg.dir("CxxWrap", "deps", "usr", "share", "cmake", "JlCxx")
+jlcxx_dir = Pkg.dir("CxxWrap", "deps",     "usr", "lib", "cmake", "JlCxx")
 xtensor_dir = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtensor")
-xtl_dir = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtl")
+xtl_dir = joinpath(dirname(@__FILE__),     "usr", "lib", "cmake", "xtl")
 
 prefix                    = joinpath(dirname(@__FILE__), "usr")
 xtl_srcdir                = joinpath(dirname(@__FILE__), "xtl")
@@ -46,7 +46,7 @@ end
 xtl_version = "0.4.9"
 
 # Version of xtensor-core to vendor
-xtensor_version = "0.16.1"
+xtensor_version = "0.16.3"
 
 xtl_steps = @build_steps begin
   `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`
