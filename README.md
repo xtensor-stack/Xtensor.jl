@@ -155,7 +155,7 @@ from the `docs` subdirectory.
 From `deps/build`
 
 ```
-cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/share/cmake/JlCxx -D BUILD_TESTS=ON ..
+cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..
 ```
 
 ## Dependencies on `xtensor` and `CxxWrap`
@@ -164,7 +164,7 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.5/CxxWrap/deps/usr/share/cmake/JlCxx -D BU
 
 | `xtensor-julia` | `xtensor` | `CxxWrap`  |
 |-----------------|-----------|------------|
-| master          |  ^0.16.1  | >=0.5 <0.6 |
+| master          |  ^0.16.3  | >=0.6 <0.7 |
 | 0.2.1           |  ^0.16.1  | >=0.5 <0.6 |
 | 0.2.0           |  ^0.16.0  | >=0.5 <0.6 |
 | 0.1.0           |  ^0.15.4  | >=0.5 <0.6 |

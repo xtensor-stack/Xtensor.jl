@@ -28,7 +28,7 @@ include_directories(${xtensor_INCLUDE_DIRS})
 include_directories(${xtensor-julia_INCLUDE_DIRS})
 
 add_library(tensors SHARED tensors.cpp)
-target_link_libraries(tensors JlCxx::jlcxx)
+target_link_libraries(tensors JlCxx::cxxwrap_julia)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
