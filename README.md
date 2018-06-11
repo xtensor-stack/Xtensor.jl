@@ -1,7 +1,7 @@
 # ![xtensor-julia](xtensor-julia.svg)
 
 [![Travis](https://travis-ci.org/QuantStack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/QuantStack/Xtensor.jl)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/jpvvk2m35d1q8woq?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-julia)
+[![Appveyor](https://ci.appveyor.com/api/projects/status/ddwxiu61ee6p9tp5?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-jl)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 

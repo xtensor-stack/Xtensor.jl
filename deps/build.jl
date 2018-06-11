@@ -49,7 +49,7 @@ xtl_version = "0.4.9"
 xtensor_version = "0.16.3"
 
 # Version of xtensor-julia to vendor
-xtensor_julia_version = "test-release"
+xtensor_julia_version = "0.3.0"
 
 xtl_steps = @build_steps begin
   `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`
