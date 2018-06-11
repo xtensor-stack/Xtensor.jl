@@ -18,7 +18,6 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"
 endif()
 
 add_definitions(-DJULIA_ENABLE_THREADING)
-add_definitions(-DNOMINMAX)
 
 find_package(JlCxx REQUIRED)
 find_package(xtensor REQUIRED)
