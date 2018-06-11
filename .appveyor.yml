@@ -28,28 +28,18 @@ init:
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia-build
 
 install:
-  # Conda install cmake, xtensor
+  # Conda install cmake
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda install gtest cmake xtensor==0.16.3 -c conda-forge
+  - conda install cmake -c conda-forge
   # Install CxxWrap
   - set BUILD_ON_WINDOWS=1
   - C:\projects\julia-build\bin\julia -E "Pkg.add(\"CxxWrap\", v\"0.6.0\", v\"0.7.0\")"
   # Run Julia Pkg build
-  - C:\projects\julia-build\bin\julia -E "Pkg.clone(pwd(), \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
-  # Build pure Cpp tests
-  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")" > temp.txt
-  - set /p JlCxx_DIR=<temp.txt
-  - set JlCxx_DIR=%JlCxx_DIR:"=%
-  - cd deps\xtensor-julia
-  - cmake -G "NMake Makefiles" -D JlCxx_DIR=%JlCxx_DIR% -D CMAKE_INSTALL_PREFIX=%MINICONDA%\\LIBRARY -D BUILD_TESTS=ON -D CMAKE_PROGRAM_PATH=C:\projects\julia-build\bin\ .
-  - nmake test_xtensor_julia
+  - C:\projects\julia-build\bin\julia -E "Pkg.clone(pwd(), \"Xtensor\"); Pkg.build(\"Xtensor\");"
 
 build_script:
-  - C:\projects\julia-build\bin\julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\")" > temp.txt
-  - set /p JlCxx_BINDIR=<temp.txt
-  - set JlCxx_BINDIR=%JlCxx_BINDIR:"=%
-  - set PATH=%PATH%;C:\projects\julia-build\bin;%JlCxx_BINDIR%
-  - nmake xtest
+  # Run Julia Pkg Test
+  - C:\projects\julia-build\bin\julia -E "Pkg.test(\"Xtensor\");"
 

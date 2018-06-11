@@ -92,25 +92,13 @@ install:
     - conda update -q conda
     - conda info -a
     # Install xtensor and other conda requirements
-    - conda install xtensor==0.16.3 cmake -c conda-forge
-    - cd deps/xtensor-julia
+    - conda install cmake -c conda-forge
     # Install CxxWrap
     - julia -E "Pkg.add(\"CxxWrap\", v\"0.6.0\", v\"0.7.0\")"
     - julia -E "Pkg.status()"
-    # Build pure Cpp tests, butnot on 0.6.1
-    - |
-      if [[ "$JULIA" != "0.6.1" ]]; then
-        JlCxx_DIR=$(julia -E "Pkg.dir(\"CxxWrap\", \"deps\", \"usr\", \"lib\", \"cmake\", \"JlCxx\")")
-        JlCxx_DIR=${JlCxx_DIR//\"/}
-        cmake -D DOWNLOAD_GTEST=ON -D JlCxx_DIR=$JlCxx_DIR -D CMAKE_INSTALL_PREFIX=$HOME/miniconda .
-        make -j2 test_xtensor_julia
-      fi
-    # Build Julia Package
-    - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"Xtensor\"); Pkg.build(\"Xtensor\"); Pkg.test(\"Xtensor\");"
+    # Run Julia Pkg build
+    - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"Xtensor\"); Pkg.build(\"Xtensor\");"
 
 script:
-    - |
-      if [[ "$JULIA" != "0.6.1" ]]; then
-        make xtest
-      fi
-
+    # Run Julia Pkg Test
+    - julia -E "Pkg.test(\"Xtensor\");"
