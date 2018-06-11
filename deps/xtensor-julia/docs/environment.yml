@@ -1,7 +1,0 @@
-name: xtensor-julia-docs
-
-channels:
-  - conda-forge
-
-dependencies:
-  - breathe
