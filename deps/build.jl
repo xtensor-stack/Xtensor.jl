@@ -4,17 +4,19 @@ using CxxWrap
 @BinDeps.setup
 
 build_type  = "Release"
-jlcxx_dir   = Pkg.dir("CxxWrap", "deps",   "usr", "lib", "cmake", "JlCxx")
-xtensor_dir = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtensor")
-xtl_dir     = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtl")
+
+jlcxx_cmake_dir   = Pkg.dir("CxxWrap", "deps",   "usr", "lib", "cmake", "JlCxx")
+xtl_cmake_dir     = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtl")
+xtensor_cmake_dir = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtensor")
 
 prefix                    = joinpath(dirname(@__FILE__), "usr")
 xtl_srcdir                = joinpath(dirname(@__FILE__), "xtl")
-xtensor_core_srcdir       = joinpath(dirname(@__FILE__), "xtensor")
+xtensor_srcdir            = joinpath(dirname(@__FILE__), "xtensor")
 xtensor_julia_srcdir      = joinpath(dirname(@__FILE__), "xtensor-julia")
 xtensor_examples_srcdir   = joinpath(dirname(@__FILE__), "xtensor-julia-examples")
+
 xtl_builddir              = joinpath(dirname(@__FILE__), "..", "builds", "xtl")
-xtensor_core_builddir     = joinpath(dirname(@__FILE__), "..", "builds", "xtensor")
+xtensor_builddir          = joinpath(dirname(@__FILE__), "..", "builds", "xtensor")
 xtensor_julia_builddir    = joinpath(dirname(@__FILE__), "..", "builds", "xtensor-julia")
 xtensor_examples_builddir = joinpath(dirname(@__FILE__), "..", "builds", "xtensor-julia-examples")
 
@@ -45,7 +47,7 @@ end
 # Version of xtl to vendor
 xtl_version = "0.4.9"
 
-# Version of xtensor-core to vendor
+# Version of xtensor to vendor
 xtensor_version = "0.16.3"
 
 # Version of xtensor-julia to vendor
@@ -57,20 +59,20 @@ xtl_steps = @build_steps begin
   `cmake --build . --config $build_type --target install`
 end
 
-xtensor_core_steps = @build_steps begin
-  `git clone -b $xtensor_version --single-branch https://github.com/QuantStack/xtensor $xtensor_core_srcdir`
-  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF -DCMAKE_INSTALL_LIBDIR=lib $xtensor_core_srcdir`
+xtensor_steps = @build_steps begin
+  `git clone -b $xtensor_version --single-branch https://github.com/QuantStack/xtensor $xtensor_srcdir`
+  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix" -DBUILD_TESTS=OFF -DCMAKE_INSTALL_LIBDIR=lib $xtensor_srcdir`
   `cmake --build . --config $build_type --target install`
 end
 
 xtensor_julia_steps = @build_steps begin
   `git clone -b $xtensor_julia_version --single-branch https://github.com/QuantStack/xtensor-julia $xtensor_julia_srcdir`
-  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix"  -DJlCxx_DIR=$jlcxx_dir -Dxtensor_DIR=$xtensor_dir -DCMAKE_PROGRAM_PATH=$JULIA_HOME -DCMAKE_INSTALL_LIBDIR=lib $xtensor_julia_srcdir`
+  `cmake -G "$genopt" -DCMAKE_INSTALL_PREFIX="$prefix"  -DJlCxx_DIR=$jlcxx_cmake_dir -Dxtensor_DIR=$xtensor_cmake_dir -DCMAKE_PROGRAM_PATH=$JULIA_HOME -DCMAKE_INSTALL_LIBDIR=lib $xtensor_julia_srcdir`
   `cmake --build . --config $build_type --target install`
 end
 
 xtensor_examples_steps = @build_steps begin
-  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DJlCxx_DIR=$jlcxx_dir -Dxtensor_DIR=$xtensor_dir -DCMAKE_PROGRAM_PATH=$JULIA_HOME -DCMAKE_INSTALL_LIBDIR=lib $xtensor_examples_srcdir`
+  `cmake -G "$genopt" -DCMAKE_PREFIX_PATH=$prefix -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE="$build_type" -DJlCxx_DIR=$jlcxx_cmake_dir -Dxtensor_DIR=$xtensor_cmake_dir -DCMAKE_PROGRAM_PATH=$JULIA_HOME -DCMAKE_INSTALL_LIBDIR=lib $xtensor_examples_srcdir`
   `cmake --build . --config $build_type --target install`
 end
 
@@ -84,11 +86,11 @@ provides(BuildProcess,
       xtl_steps
     end
 
-    println("Building xtensor-core")
-    CreateDirectory(xtensor_core_builddir)
+    println("Building xtensor")
+    CreateDirectory(xtensor_builddir)
     @build_steps begin
-      ChangeDirectory(xtensor_core_builddir)
-      xtensor_core_steps
+      ChangeDirectory(xtensor_builddir)
+      xtensor_steps
     end
 
     println("Building xtensor-julia")
