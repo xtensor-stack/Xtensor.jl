@@ -1,11 +1,11 @@
-# ![xtensor-julia](xtensor-julia.svg)
+# ![Xtensor.jl](xtensor-julia.svg)
 
 [![Travis](https://travis-ci.org/QuantStack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/QuantStack/Xtensor.jl)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/ddwxiu61ee6p9tp5?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-jl)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Julia bindings for the [xtensor](https://github.com/QuantStack/xtensor) C++ multi-dimensional array library.
+Julia package for the `xtensor-julia` library, the Julia bindings for [xtensor](https://github.com/QuantStack/xtensor).
 
  - `xtensor` is a C++ library for multi-dimensional arrays enabling numpy-style broadcasting and lazy computing.
  - `xtensor-julia` enables inplace use of julia arrays in C++ with all the benefits from `xtensor`
@@ -25,7 +25,7 @@ Pkg.build("Xtensor")
 
 ## Documentation
 
-To get started with using `xtensor-julia`, check out the full documentation
+To get started with using `Xtensor.jl` and `xtensor-julia`, check out the full documentation
 
 http://xtensor-julia.readthedocs.io/
 
@@ -48,7 +48,7 @@ Both containers enable the numpy-style APIs of xtensor (see [the numpy to xtenso
 
 ```cpp
 #include <numeric>                        // Standard library import for std::accumulate
-#include <cxx_wrap.hpp>                   // CxxWrap import to define Julia bindings
+#include <cxx_wrap.hpp>                   // libcxxwrap import to define Julia bindings
 #include "xtensor-julia/jltensor.hpp"     // Import the jltensor container definition
 #include "xtensor/xmath.hpp"              // xtensor import for the C++ universal functions
 
@@ -158,19 +158,17 @@ From `deps/build`
 cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..
 ```
 
-## Dependencies on `xtensor` and `CxxWrap`
+## Dependencies on `xtensor`, `xtensor-julia`, and `CxxWrap`
 
-`xtensor-julia` depends on the `xtensor` and `CxxWrap` libraries
+`Xtensor.jl` depends on `xtensor-julia`, `xtensor` and `CxxWrap` libraries
 
-| `xtensor-julia` | `xtensor` | `CxxWrap`  |
-|-----------------|-----------|------------|
-| master          |  ^0.16.3  | >=0.6 <0.7 |
-| 0.2.1           |  ^0.16.1  | >=0.5 <0.6 |
-| 0.2.0           |  ^0.16.0  | >=0.5 <0.6 |
-| 0.1.0           |  ^0.15.4  | >=0.5 <0.6 |
-| 0.0.11          |  ^0.15.1  | >=0.5 <0.6 |
-| 0.0.10          |  ^0.14.1  | >=0.5 <0.6 |
-| 0.0.9           |  ^0.13.1  | >=0.5 <0.6 |
+| `Xtensor.jl` | `xtensor`      | `xtensor-julia` | `CxxWrap`  |
+|--------------|----------------|-----------------| -----------|
+| master       | >=0.16.3,<0.17 | 0.3.0           | >=0.6,<0.7 |
+| 0.3.0        | >=0.16.3,<0.17 | 0.3.0           | >=0.6,<0.7 |
+| 0.2.1        | >=0.16.1,<0.17 |                 | >=0.5,<0.6 |
+| 0.2.0        | >=0.16.0,<0.17 |                 | >=0.5,<0.6 |
+| 0.1.0        | >=0.15.4,<0.16 |                 | >=0.5,<0.6 |
 
 These dependencies are automatically resolved when using the Julia package manager.
 
