@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 sudo: required
 language: julia
 matrix:
@@ -9,27 +9,9 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.9
-      env: COMPILER=gcc GCC=4.9
-      julia: 0.6.0
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
             - g++-5
       env: COMPILER=gcc GCC=5
-      julia: 0.6.0
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: COMPILER=gcc GCC=5 JULIA=0.6.1
-      julia: 0.6.1
+      julia: 1.0.1
     - os: linux
       addons:
         apt:
@@ -37,8 +19,17 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-6
-      env: COMPILER=gcc GCC=6 JULIA=0.6.1
-      julia: 0.6.1
+      env: COMPILER=gcc GCC=6
+      julia: 1.0.1
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env: COMPILER=gcc GCC=7
+      julia: 1.0.1
     - os: linux
       addons:
         apt:
@@ -51,18 +42,9 @@ matrix:
     - os: osx
       osx_image: xcode8
       compiler: clang
-      julia: 0.6.0
-    - os: osx
-      osx_image: xcode8
-      compiler: clang
-      julia: 0.6.1
+      julia: 1.0.1
   allow_failures:
     - julia: nightly
-env:
-  global:
-    - MINCONDA_VERSION="latest"
-    - MINCONDA_LINUX="Linux-x86_64"
-    - MINCONDA_OSX="MacOSX-x86_64"
 before_install:
     - |
       # Configure build variables
@@ -78,27 +60,8 @@ before_install:
       fi
 
 install:
-    # Define the version of miniconda to download
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-        MINCONDA_OS=$MINCONDA_LINUX;
-      elif [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        MINCONDA_OS=$MINCONDA_OSX;
-      fi
-    - wget "http://repo.continuum.io/miniconda/Miniconda3-$MINCONDA_VERSION-$MINCONDA_OS.sh" -O miniconda.sh;
-    - bash miniconda.sh -b -p $HOME/miniconda
-    - export PATH="$HOME/miniconda/bin:$PATH"
-    - hash -r
-    - conda config --set always_yes yes --set changeps1 no
-    - conda update -q conda
-    - conda info -a
-    # Install xtensor and other conda requirements
-    - conda install cmake -c conda-forge
-    # Install CxxWrap
-    - julia -E "Pkg.add(\"CxxWrap\", v\"0.6.0\", v\"0.7.0\")"
-    - julia -E "Pkg.status()"
-    # Run Julia Pkg build
-    - julia -E "Pkg.clone(\"$TRAVIS_BUILD_DIR\", \"Xtensor\"); Pkg.build(\"Xtensor\");"
+    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
+    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"Xtensor\", path=\"$TRAVIS_BUILD_DIR\"));"
 
 script:
-    # Run Julia Pkg Test
-    - julia -E "Pkg.test(\"Xtensor\");"
+    - julia -E "using Pkg; Pkg.test(\"Xtensor\");"
