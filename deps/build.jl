@@ -24,7 +24,7 @@ xtensor_examples_builddir = joinpath(dirname(@__FILE__), "..", "builds", "xtenso
 
 # Set generator if on windows
 @static if Sys.iswindows()
-    genopt = "NMake Makefiles"
+    genopt = "MinGW Makefiles"
 else
     genopt = "Unix Makefiles"
 end
