@@ -48,7 +48,6 @@ double readme_example2(double i, double j)
 }
 
 // Vectorize Examples
-
 int_t add(int_t i, int_t j)
 {
     return i + j;
@@ -56,8 +55,7 @@ int_t add(int_t i, int_t j)
 
 namespace tensors
 {
-
-    void init_tensor_module(jlcxx::Module& mod)
+    JLCXX_MODULE define_julia_module(jlcxx::Module& mod)
     {
         // Test jltensor
         mod.method("test_access", test_access);
@@ -70,14 +68,12 @@ namespace tensors
 
         mod.method("vectorize_example1", xt::jlvectorize(add));
 
-        mod.method("rect_to_polar", xt::jlvectorize([](const std::complex<double> x) { return std::abs(x); }));
+        mod.method("rect_to_polar", xt::jlvectorize([](const std::complex<double> x) {
+            return std::abs(x);
+        }));
 
         mod.method("compare_shapes", [](const xt::jlarray<double> a, const xt::jlarray<double> b) {
             return a.shape() == b.shape();
         });
     }
 }
-
-JULIA_CPP_MODULE_BEGIN(registry)
-  tensors::init_tensor_module(registry.create_module("TensorFunctions"));
-JULIA_CPP_MODULE_END
