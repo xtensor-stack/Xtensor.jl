@@ -14,6 +14,8 @@ using Xtensor
 @wrapmodule Xtensor._l_tensors
 end
 
+@test 1 == 2
+
 arr = [[1.0 2.0]
        [3.0 4.0]]
 
