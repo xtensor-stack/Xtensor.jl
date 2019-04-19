@@ -39,7 +39,7 @@ install:
   # Install CxxWrap
   - set BUILD_ON_WINDOWS=1
   - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
-  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.add(PackageSpec(name=\"Xtensor\", path=pwd()));"
+  - C:\projects\julia-build\bin\julia --project=. -E "using Pkg; Pkg.build();"
 
 build_script:
-  - C:\projects\julia-build\bin\julia -E "using Pkg; Pkg.test(\"Xtensor\");"
+  - C:\projects\julia-build\bin\julia --project=. -E "using Pkg; Pkg.test()"
