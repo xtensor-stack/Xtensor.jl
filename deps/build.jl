@@ -1,6 +1,5 @@
 using BinDeps
 using CxxWrap
-using Pkg
 
 @BinDeps.setup
 

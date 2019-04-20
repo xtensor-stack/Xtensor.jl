@@ -61,7 +61,7 @@ before_install:
 
 install:
     - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
-    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"Xtensor\", path=\"$TRAVIS_BUILD_DIR\"));"
+    - julia --project=. -E "using Pkg; Pkg.build()"
 
 script:
-    - julia -E "using Pkg; Pkg.test(\"Xtensor\");"
+    - julia --project=. -E "using Pkg; Pkg.test()"
