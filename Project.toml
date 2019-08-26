@@ -1,6 +1,6 @@
 name = "Xtensor"
 uuid = "65419b8a-9a19-58ae-bde3-3f7e1d1bf8ef"
-version = "0.8.1"
+version = "0.8.2"
 
 [deps]
 BinDeps = "9e28174c-4ba2-5203-b857-d8d62c4213ee"
