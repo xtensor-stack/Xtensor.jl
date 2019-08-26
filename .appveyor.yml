@@ -19,10 +19,10 @@ init:
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%MINICONDA%\\Library\\bin;%PATH%"
   # Download most recent Julia Windows binary
   - ps: if($env:Platform -eq "x64"){(new-object net.webclient).DownloadFile(
-        $("https://julialang-s3.julialang.org/bin/winnt/x64/1.1/julia-1.1.0-win64.exe"),
+        $("https://julialang-s3.julialang.org/bin/winnt/x64/1.2/julia-1.2.0-win64.exe"),
         "C:\projects\julia-binary.exe")}
   - ps: if($env:Platform -eq "x86"){(new-object net.webclient).DownloadFile(
-        $("https://julialang-s3.julialang.org/bin/winnt/x86/1.1/julia-1.1.0-win32.exe"),
+        $("https://julialang-s3.julialang.org/bin/winnt/x86/1.2/julia-1.2.0-win32.exe"),
         "C:\projects\julia-binary.exe")}
   # Run installer silently, output to C:\projects\julia-build
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia-build
