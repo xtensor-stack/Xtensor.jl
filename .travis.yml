@@ -20,7 +20,7 @@ matrix:
           packages:
             - g++-6
       env: COMPILER=gcc GCC=6
-      julia: 1.0.1
+      julia: 1.1.1
     - os: linux
       addons:
         apt:
@@ -29,7 +29,7 @@ matrix:
           packages:
             - g++-7
       env: COMPILER=gcc GCC=7
-      julia: 1.0.1
+      julia: 1.2.0
     - os: linux
       addons:
         apt:
@@ -42,7 +42,7 @@ matrix:
     - os: osx
       osx_image: xcode8
       compiler: clang
-      julia: 1.0.1
+      julia: 1.1.1
   allow_failures:
     - julia: nightly
 before_install:
@@ -60,7 +60,7 @@ before_install:
       fi
 
 install:
-    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.1\"))"
+    - julia -E "using Pkg; Pkg.add(PackageSpec(name=\"CxxWrap\", version=\"0.8.2\"))"
     - julia --project=. -E "using Pkg; Pkg.build()"
 
 script:
