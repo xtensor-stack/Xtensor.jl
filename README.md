@@ -154,7 +154,7 @@ from the `docs` subdirectory.
 From `deps/build`
 
 ```
-cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..
+cmake -D JlCxx_DIR=/path/to/.julia/v1.1/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..
 ```
 
 ## Dependencies on `xtensor`, `xtensor-julia`, and `CxxWrap`
@@ -163,19 +163,13 @@ cmake -D JlCxx_DIR=/path/to/.julia/v0.6/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUIL
 
 | `Xtensor.jl` | `xtensor`      | `xtensor-julia` | `CxxWrap`    |
 |--------------|----------------|-----------------|--------------|
-| master       | >=0.20.4,<0.21 | 0.8.2           | >=0.8.1,<0.9 |
+| master       | >=0.20.8,<0.21 | 0.8.4           | >=0.8.1,<0.9 |
 | 0.8.1        | >=0.20.4,<0.21 | 0.8.2           | >=0.8.1,<0.9 |
 | 0.8.0        | >=0.20.4,<0.21 | 0.8.2           | >=0.8.1,<0.9 |
 | 0.7.0        | >=0.19.0,<0.20 | 0.7.0           | >=0.8.1,<0.9 |
 | 0.6.2        | >=0.18.3,<0.19 | 0.6.2           | >=0.8.1,<0.9 |
 | 0.6.1        | >=0.18.1,<0.19 | 0.6.0           | >=0.8.1,<0.9 |
 | 0.6.0        | >=0.18.1,<0.19 | 0.6.0           | >=0.8.1,<0.9 |
-| 0.5.0        | >=0.18.0,<0.19 | 0.5.0           | >=0.6,<0.7   |
-| 0.4.0        | >=0.17.1,<0.18 | 0.4.0           | >=0.6,<0.7   |
-| 0.3.0        | >=0.16.3,<0.17 | 0.3.0           | >=0.6,<0.7   |
-| 0.2.1        | >=0.16.1,<0.17 |                 | >=0.5,<0.6   |
-| 0.2.0        | >=0.16.0,<0.17 |                 | >=0.5,<0.6   |
-| 0.1.0        | >=0.15.4,<0.16 |                 | >=0.5,<0.6   |
 
 These dependencies are automatically resolved when using the Julia package manager.
 
