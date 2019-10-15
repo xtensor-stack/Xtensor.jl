@@ -1,11 +1,11 @@
 # ![Xtensor.jl](xtensor-julia.svg)
 
-[![Travis](https://travis-ci.org/QuantStack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/QuantStack/Xtensor.jl)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/ddwxiu61ee6p9tp5?svg=true)](https://ci.appveyor.com/project/QuantStack/xtensor-jl)
+[![Travis](https://travis-ci.org/xtensor-stack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/xtensor-stack/Xtensor.jl)
+[![Apveyor](https://ci.appveyor.com/api/projects/status/988jlhgfnsanms6v?svg=true)](https://ci.appveyor.com/project/xtensor-stack/xtensor-jl)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Julia package for the `xtensor-julia` library, the Julia bindings for [xtensor](https://github.com/QuantStack/xtensor).
+Julia package for the `xtensor-julia` library, the Julia bindings for [xtensor](https://github.com/xtensor-stack/xtensor).
 
  - `xtensor` is a C++ library for multi-dimensional arrays enabling numpy-style broadcasting and lazy computing.
  - `xtensor-julia` enables inplace use of julia arrays in C++ with all the benefits from `xtensor`
