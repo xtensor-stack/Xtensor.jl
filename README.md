@@ -135,10 +135,10 @@ While doxygen must be installed separately, you can install breathe by typing
 pip install breathe
 ```
 
-Breathe can also be installed with `conda`
+Breathe can also be installed with `mamba` (or conda)
 
 ```bash
-conda install -c conda-forge breathe
+mamba install -c conda-forge breathe
 ```
 
 Finally, build the documentation with
