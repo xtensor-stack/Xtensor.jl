@@ -5,7 +5,7 @@ using CxxWrap
 
 build_type  = "Release"
 
-jlcxx_cmake_dir   = joinpath(dirname(pathof(CxxWrap)), "..", "deps",   "usr", "lib", "cmake", "JlCxx")
+jlcxx_cmake_dir   = joinpath(CxxWrap.prefix_path(), "lib", "cmake", "JlCxx")
 xtl_cmake_dir     = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtl")
 xtensor_cmake_dir = joinpath(dirname(@__FILE__), "usr", "lib", "cmake", "xtensor")
 julia_bindir      = Sys.BINDIR
@@ -46,13 +46,13 @@ for l in example_labels
 end
 
 # Version of xtl to vendor
-xtl_version = "0.6.5"
+xtl_version = "0.7.4"
 
 # Version of xtensor to vendor
-xtensor_version = "0.20.8"
+xtensor_version = "0.24.0"
 
 # Version of xtensor-julia to vendor
-xtensor_julia_version = "0.8.4"
+xtensor_julia_version = "0.10.1"
 
 xtl_steps = @build_steps begin
   `git clone -b $xtl_version --single-branch https://github.com/QuantStack/xtl $xtl_srcdir`

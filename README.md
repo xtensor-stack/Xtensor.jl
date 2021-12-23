@@ -1,7 +1,5 @@
 # ![Xtensor.jl](xtensor-julia.svg)
 
-[![Travis](https://travis-ci.org/xtensor-stack/Xtensor.jl.svg?branch=master)](https://travis-ci.org/xtensor-stack/Xtensor.jl)
-[![Apveyor](https://ci.appveyor.com/api/projects/status/988jlhgfnsanms6v?svg=true)](https://ci.appveyor.com/project/xtensor-stack/xtensor-jl)
 [![Documentation Status](http://readthedocs.org/projects/xtensor-julia/badge/?version=latest)](https://xtensor-julia.readthedocs.io/en/latest/?badge=latest)
 [![Join the Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/QuantStack/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -149,28 +147,13 @@ make html
 
 from the `docs` subdirectory.
 
-## Running the C++ tests
-
-From `deps/build`
-
-```
-cmake -D JlCxx_DIR=/path/to/.julia/v1.1/CxxWrap/deps/usr/lib/cmake/JlCxx -D BUILD_TESTS=ON ..
-```
-
 ## Dependencies on `xtensor`, `xtensor-julia`, and `CxxWrap`
 
 `Xtensor.jl` depends on `xtensor-julia`, `xtensor` and `CxxWrap` libraries
 
-| `Xtensor.jl` | `xtensor`      | `xtensor-julia` | `CxxWrap`    |
-|--------------|----------------|-----------------|--------------|
-| master       | >=0.20.8,<0.21 | 0.8.4           | >=0.8.1,<0.9 |
-| 0.8.2        | >=0.20.8,<0.21 | 0.8.4           | >=0.8.1,<0.9 |
-| 0.8.1        | >=0.20.4,<0.21 | 0.8.2           | >=0.8.1,<0.9 |
-| 0.8.0        | >=0.20.4,<0.21 | 0.8.2           | >=0.8.1,<0.9 |
-| 0.7.0        | >=0.19.0,<0.20 | 0.7.0           | >=0.8.1,<0.9 |
-| 0.6.2        | >=0.18.3,<0.19 | 0.6.2           | >=0.8.1,<0.9 |
-| 0.6.1        | >=0.18.1,<0.19 | 0.6.0           | >=0.8.1,<0.9 |
-| 0.6.0        | >=0.18.1,<0.19 | 0.6.0           | >=0.8.1,<0.9 |
+| `Xtensor.jl` | `xtensor`      | `xtensor-julia` | `CxxWrap`      |
+|--------------|----------------|-----------------|----------------|
+| master       | >=0.24.0,<0.25 | 0.10.0          | >=0.11.2,<0.12 |
 
 These dependencies are automatically resolved when using the Julia package manager.
 
