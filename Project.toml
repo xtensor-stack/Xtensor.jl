@@ -1,11 +1,16 @@
 name = "Xtensor"
 uuid = "65419b8a-9a19-58ae-bde3-3f7e1d1bf8ef"
-version = "0.8.2"
+version = "0.9.0"
 
 [deps]
 BinDeps = "9e28174c-4ba2-5203-b857-d8d62c4213ee"
 CxxWrap = "1f15a43c-97ca-5a2a-ae31-89f07a497df4"
 Libdl = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+
+[compat]
+julia = "1.6"
+CxxWrap = "0.11"
+BinDeps = "1.0"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
