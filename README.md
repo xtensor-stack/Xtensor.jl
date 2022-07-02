@@ -153,7 +153,8 @@ from the `docs` subdirectory.
 
 | `Xtensor.jl` | `xtensor`      | `xtensor-julia` | `CxxWrap`      |
 |--------------|----------------|-----------------|----------------|
-| master       | >=0.24.0,<0.25 | 0.10.1          | >=0.11.2,<0.12 |
+| master       | >=0.24.2,<0.25 | 0.10.2          | >=0.12.0,<0.13 |
+| 0.9.1        | >=0.24.2,<0.25 | 0.10.2          | >=0.12.0,<0.13 |
 | 0.9.0        | >=0.24.0,<0.25 | 0.10.1          | >=0.11.2,<0.12 |
 
 These dependencies are automatically resolved when using the Julia package manager.
